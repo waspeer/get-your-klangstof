@@ -13,6 +13,8 @@
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
+    "@hapi/code": "^8.0.1",
+    "@hapi/lab": "^22.0.3",
     "eslint-import-resolver-typescript": "^2.0.0",
     "husky": "^4.2.3",
     "poetic": "^1.4.1"
@@ -21,5 +23,9 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "dependencies": {
+    "@hapi/h2o2": "^9.0.1",
+    "@hapi/hapi": "^19.1.1"
   }
 }
