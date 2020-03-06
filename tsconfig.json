@@ -1,8 +1,7 @@
 {
-  /* Poetic base style configuration */
   "extends": "./node_modules/poetic/config/typescript/tsconfig.json",
-  /* Add your custom configuration after this */
   "include": ["src/**/*"],
+  "exclude": ["src/test/**/*"],
   "compilerOptions": {
     "target": "es5",
     "outDir": "dist",
@@ -14,7 +13,9 @@
     "isolatedModules": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": true,
-    "noEmit": true
+    "baseUrl": ".",
+    "paths": {
+      "#src/*": ["./src/*"]
+    }
   }
 }
