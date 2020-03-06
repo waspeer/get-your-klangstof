@@ -36,6 +36,6 @@
     "module-alias": "^2.2.2"
   },
   "_moduleAliases": {
-    "#src": "src"
+    "#root": "dist"
   }
 }
