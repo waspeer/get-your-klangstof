@@ -4,6 +4,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     'comma-dangle': ['warn', 'always-multiline'],
+    'no-console': 'off',
     semi: ['warn', 'always'],
     'object-curly-spacing': ['warn', 'always'],
     quotes: ['error', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
