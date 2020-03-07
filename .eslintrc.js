@@ -3,6 +3,7 @@ module.exports = {
   // Add custom rules here
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     'comma-dangle': ['warn', 'always-multiline'],
     'no-console': 'off',
     'no-useless-constructor': 'off',
