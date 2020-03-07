@@ -1,7 +1,8 @@
 import { ok, err, Result } from 'resulty';
 
+import { ErrorObject } from '#root/lib/error';
+
 import Errors, { ErrorTypes } from './errors';
-import { ErrorObject } from '../error';
 
 interface Props {
   code: string;

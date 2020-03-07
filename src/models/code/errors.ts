@@ -1,4 +1,4 @@
-import Error from '#root/models/error';
+import Error from '#root/lib/error';
 
 import { USE_LIMIT } from './code';
 
