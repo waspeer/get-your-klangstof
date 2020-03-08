@@ -29,6 +29,7 @@
     "@hapi/boom": "^9.0.0",
     "@hapi/h2o2": "^9.0.1",
     "@hapi/hapi": "^19.1.1",
+    "adjective-adjective-animal": "^1.3.3",
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "google-spreadsheet": "^3.0.9",
