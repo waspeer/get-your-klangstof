@@ -10,7 +10,7 @@ export const emptyCode = DomainError.create(ErrorTypes.EmptyCode, 'Download code
 
 export const exceededLimit = DomainError.create(
   ErrorTypes.ExceededLimit,
-  (useLimit: number) => `Download code cannot be use more than ${useLimit} time(s)`,
+  (useLimit: number) => `Download code cannot be used more than ${useLimit} time(s)`,
 );
 
 export const invalidUsed = DomainError.create(
