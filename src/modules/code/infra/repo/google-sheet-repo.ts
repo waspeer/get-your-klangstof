@@ -18,6 +18,14 @@ class Api implements CodeRepo {
       return rows.map(CodeMapper.toDomain);
     });
   }
+
+  addCodes(codes: Code[]): Promise<void> {
+    return this.sheet.then((sheet) => {
+      return new Promise<void>((resolve) => {
+        sheet.addRows(codes.map(CodeMapper.toPersistence)).then(() => resolve());
+      });
+    });
+  }
 }
 
 export default Api;
