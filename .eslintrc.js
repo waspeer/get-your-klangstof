@@ -7,6 +7,7 @@ module.exports = {
     'comma-dangle': ['warn', 'always-multiline'],
     'import/prefer-default-export': 'off',
     'no-console': 'off',
+    'no-empty-function': 'off',
     'no-useless-constructor': 'off',
     semi: ['warn', 'always'],
     'object-curly-spacing': ['warn', 'always'],
