@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { GoogleSpreadsheet, GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
 
-import { StoredCode } from '../modules/code/infra/repo/google-sheet-repo';
-
 const getSheet = async () => {
   if (
     !process.env.GOOGLE_SHEET_ID ||
@@ -21,7 +19,7 @@ const getSheet = async () => {
 
   await doc.loadInfo();
 
-  return doc.sheetsByIndex[0] as GoogleSpreadsheetWorksheet<StoredCode>;
+  return doc.sheetsByIndex[0] as GoogleSpreadsheetWorksheet;
 };
 
 export default getSheet;
