@@ -1,12 +1,5 @@
-import { Result } from 'resulty';
-
 import Code, { USE_LIMIT } from './code';
-import Errors from './errors';
-
-const getResultValue = <E, A>(result: Result<E, A>) =>
-  result.cata<E | A>({ Ok: (v) => v, Err: (err) => err });
-
-const isOk = <E, A>(result: Result<E, A>) => result.cata({ Ok: () => true, Err: () => false });
+import * as Errors from './errors';
 
 describe('Code', () => {
   describe('.create', () => {
@@ -15,13 +8,14 @@ describe('Code', () => {
         code: 'blah',
         used: -1,
       });
-      expect(getResultValue(resultLower)).toEqual(Errors.invalidUsed());
+      expect(resultLower.isFailure()).toBe(true);
+      expect(resultLower.isFailure() && resultLower.error).toEqual(Errors.invalidUsed());
 
       const resultZero = Code.create({
         code: 'blah',
         used: 0,
       });
-      expect(isOk(resultZero)).toBe(true);
+      expect(resultZero.isSuccess()).toBe(true);
     });
 
     it('should fail when `used` prop exceeds the maximum', () => {
@@ -29,7 +23,8 @@ describe('Code', () => {
         code: 'blah',
         used: USE_LIMIT + 2,
       });
-      expect(getResultValue(result)).toEqual(Errors.exceededLimit());
+      expect(result.isFailure()).toBe(true);
+      expect(result.isFailure() && result.error).toEqual(Errors.exceededLimit(USE_LIMIT));
     });
 
     it('should fail when the code is empty', () => {
@@ -37,7 +32,8 @@ describe('Code', () => {
         code: '',
         used: 0,
       });
-      expect(getResultValue(result)).toEqual(Errors.emptyCode());
+      expect(result.isFailure()).toBe(true);
+      expect(result.isFailure() && result.error).toEqual(Errors.emptyCode());
     });
   });
 });

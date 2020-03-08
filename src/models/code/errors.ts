@@ -1,6 +1,4 @@
-import Error from '#root/lib/error';
-
-import { USE_LIMIT } from './code';
+import { DomainError } from '#root/lib/result';
 
 export enum ErrorTypes {
   EmptyCode = 'EMPTY_CODE',
@@ -8,16 +6,14 @@ export enum ErrorTypes {
   InvalidUsed = 'INVALIDUSED',
 }
 
-const Errors = {
-  types: ErrorTypes,
-  emptyCode: () => Error.create(ErrorTypes.EmptyCode, 'Download code cannot be empty'),
-  exceededLimit: () =>
-    Error.create(
-      ErrorTypes.ExceededLimit,
-      `Download code cannot be use more than ${USE_LIMIT} time(s)`,
-    ),
-  invalidUsed: () =>
-    Error.create(ErrorTypes.InvalidUsed, '`used` property cannot be lower than zero'),
-};
+export const emptyCode = DomainError.create(ErrorTypes.EmptyCode, 'Download code cannot be empty');
 
-export default Errors;
+export const exceededLimit = DomainError.create(
+  ErrorTypes.ExceededLimit,
+  (useLimit: number) => `Download code cannot be use more than ${useLimit} time(s)`,
+);
+
+export const invalidUsed = DomainError.create(
+  ErrorTypes.InvalidUsed,
+  '`used` property cannot be lower than zero',
+);

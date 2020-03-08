@@ -38,8 +38,7 @@
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "google-spreadsheet": "^3.0.9",
-    "module-alias": "^2.2.2",
-    "resulty": "^3.0.0"
+    "module-alias": "^2.2.2"
   },
   "_moduleAliases": {
     "#root": "dist"
