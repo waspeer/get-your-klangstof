@@ -833,7 +833,10 @@ declare module 'google-spreadsheet' {
      * @param {number} [options.offset] How many rows to skip from the top
      * @param {number} [options.limit] Max number of rows to fetch
      */
-    getRows(options?: { offset: number; limit: number }): Promise<GoogleSpreadsheetRow[]>;
+    getRows<T extends Record<string, any> = {}>(options?: {
+      offset: number;
+      limit: number;
+    }): Promise<(GoogleSpreadsheetRow & T)[]>;
 
     /**
      * Fetch cells from google
