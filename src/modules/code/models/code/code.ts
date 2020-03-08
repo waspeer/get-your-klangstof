@@ -20,6 +20,10 @@ class Code {
     return this.props.code;
   }
 
+  get isValid() {
+    return this.props.used < USE_LIMIT;
+  }
+
   get used() {
     return this.props.used;
   }
@@ -30,7 +34,6 @@ class Code {
 
   static create({ code, used }: Props): CreateResult {
     if (used < 0) return Result.fail(Errors.invalidUsed());
-    if (used > USE_LIMIT) return Result.fail(Errors.exceededLimit(USE_LIMIT));
     if (!code.length) return Result.fail(Errors.emptyCode());
 
     return Result.ok(new Code({ code, used }));

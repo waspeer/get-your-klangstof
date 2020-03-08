@@ -18,7 +18,7 @@ describe('Code', () => {
       expect(resultZero.isSuccess()).toBe(true);
     });
 
-    it('should fail when `used` prop exceeds the maximum', () => {
+    it.skip('should fail when `used` prop exceeds the maximum', () => {
       const result = Code.create({
         code: 'blah',
         used: USE_LIMIT + 2,
@@ -34,6 +34,26 @@ describe('Code', () => {
       });
       expect(result.isFailure()).toBe(true);
       expect(result.isFailure() && result.error).toEqual(Errors.emptyCode());
+    });
+  });
+
+  describe('.isValid', () => {
+    it('should return false when code has been used too many times', () => {
+      const result = Code.create({
+        code: 'blah',
+        used: USE_LIMIT + 2,
+      });
+      const code = result.value;
+      expect(code.isValid).toBe(false);
+    });
+
+    it('should return true when code has not been used', () => {
+      const result = Code.create({
+        code: 'blah',
+        used: 0,
+      });
+      const code = result.value;
+      expect(code.isValid).toBe(true);
     });
   });
 });
