@@ -8,10 +8,17 @@ class CodeMapper {
     return result.value;
   }
 
-  static toDTO(code: Code): DTO {
+  static toDTO({ code, isValid }: Code): DTO {
     return {
-      code: code.code,
-      valid: code.isValid,
+      code,
+      valid: isValid,
+    };
+  }
+
+  static toPersistence({ code, used }: Code): StoredCode {
+    return {
+      code,
+      used: String(used),
     };
   }
 }
