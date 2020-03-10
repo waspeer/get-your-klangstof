@@ -1,3 +1,4 @@
+import H2o2 from '@hapi/h2o2';
 import { Plugin } from '@hapi/hapi';
 
 import * as Controllers from './hapi-controllers';
@@ -6,6 +7,8 @@ const codeRoutes: Plugin<{}> = {
   name: 'downloadCodes',
   version: '0.0.0',
   register: (server) => {
+    server.register(H2o2);
+
     // server.route({
     //   method: 'GET',
     //   path: '/',
@@ -13,7 +16,7 @@ const codeRoutes: Plugin<{}> = {
     // });
 
     server.route({
-      method: 'POST',
+      method: 'GET',
       path: '/{code}/redeem',
       handler: Controllers.redeemCode,
     });

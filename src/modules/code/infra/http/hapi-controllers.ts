@@ -43,5 +43,22 @@ export const redeemCode = async (req: Request, h: ResponseToolkit) => {
     return response;
   }
 
-  return h.response().code(204);
+  const { RESOURCE_URL } = process.env;
+
+  return h.proxy({
+    uri: RESOURCE_URL,
+    onResponse: (err, res, _req, h) => {
+      if (err || res.statusCode !== 200 || !RESOURCE_URL) {
+        return h.response('not found').code(404);
+      }
+
+      const [, resourceName] = RESOURCE_URL.match(/\/([^/]*?)$/) ?? [null, ''];
+
+      res.headers = {
+        ...res.headers,
+        'content-disposition': `attachment; filename=${resourceName ?? 'download.zip'}`,
+      };
+      return res;
+    },
+  });
 };
