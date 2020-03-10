@@ -301,7 +301,7 @@
     "@hapi/hoek" "9.x.x"
     "@hapi/joi" "17.x.x"
 
-"@hapi/hoek@9.x.x", "@hapi/hoek@^9.0.0":
+"@hapi/hoek@*", "@hapi/hoek@9.x.x", "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.0.3":
   version "9.0.3"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.0.3.tgz#e49e637d5de8faa4f0d313c2590b455d7c00afd7"
   integrity sha512-jKtjLLDiH95b002sJVc5c74PE6KKYftuyVdVmsuYId5stTaWcRFqE+5ukZI4gDUKjGn8wv2C3zPn3/nyjEI7gg==
@@ -705,6 +705,13 @@
     "@types/hapi__podium" "*"
     "@types/hapi__shot" "*"
     "@types/node" "*"
+
+"@types/hapi__hoek@^9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@types/hapi__hoek/-/hapi__hoek-9.0.1.tgz#7c68476e5a63c4fd7b4541ee306281af91d76ae3"
+  integrity sha512-Rd3KrTg/RaE/JVVWL1uB+I1cfpM7xCj+qjGHnI0QKRc/thHdc0K2yIue3zQceBfIECuPaTaoGZm4OQBUTmNZIw==
+  dependencies:
+    "@hapi/hoek" "*"
 
 "@types/hapi__joi@*":
   version "16.0.12"
