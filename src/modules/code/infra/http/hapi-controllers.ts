@@ -1,10 +1,10 @@
 import Boom from '@hapi/boom';
+import Hoek from '@hapi/hoek';
 import { Request, ResponseToolkit } from '@hapi/hapi';
 
 import CodeMapper from '../../mappers/code-mapper';
 import getAllCodesFeature from '../../features/get-all-codes';
 import redeemCodeFeature from '../../features/redeem-code';
-import RedeemCodeDTO from '../../features/redeem-code/dto';
 import * as RedeemCodeErrors from '../../features/redeem-code/errors';
 
 /**
@@ -28,7 +28,7 @@ export const getAllCodes = async () => {
  * Redeem download code
  */
 export const redeemCode = async (req: Request, h: ResponseToolkit) => {
-  const dto = req.payload as RedeemCodeDTO;
+  const dto = { code: Hoek.escapeHtml(req.params.code) };
   const result = await redeemCodeFeature(dto);
 
   if (result.isFailure()) {
