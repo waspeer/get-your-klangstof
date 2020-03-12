@@ -1,0 +1,20 @@
+{
+  "name": "get-your-klangstof-client",
+  "version": "0.0.0",
+  "main": "build/index.html",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel src/index.html"
+  },
+  "dependencies": {
+    "parcel-bundler": "^1.12.4",
+    "react": ">=15",
+    "react-dom": "^16.13.0",
+    "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
+    "@types/react-router-dom": "^5.1.3"
+  }
+}
