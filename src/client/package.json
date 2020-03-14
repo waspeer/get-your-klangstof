@@ -4,7 +4,8 @@
   "main": "build/index.html",
   "license": "MIT",
   "scripts": {
-    "dev": "parcel src/index.html"
+    "dev": "parcel src/index.html",
+    "test:unit": "jest"
   },
   "dependencies": {
     "parcel-bundler": "^1.12.4",
@@ -17,9 +18,14 @@
     "styled-normalize": "^8.0.7"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.1.1",
+    "@testing-library/react": "^9.5.0",
+    "@types/color": "^3.0.1",
+    "@types/jest": "^25.1.4",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "@types/react-router-dom": "^5.1.3",
-    "@types/styled-components": "^5.0.1"
+    "jest": "^25.1.0",
+    "ts-jest": "^25.2.1"
   }
 }
