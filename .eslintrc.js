@@ -8,6 +8,10 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-console': 'off',
     'no-empty-function': 'off',
+    'import/no-extraneous-dependencies': [
+      'error',
+      { devDependencies: ['**/*.test.tsx', '**/test/**/*'] },
+    ],
     'no-useless-constructor': 'off',
     semi: ['warn', 'always'],
     'object-curly-spacing': ['warn', 'always'],
