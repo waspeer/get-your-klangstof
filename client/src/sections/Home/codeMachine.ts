@@ -1,11 +1,38 @@
-import { Machine } from 'xstate';
+import { assign, Machine } from 'xstate';
 
-const codeMachine = Machine(
+import { checkCode } from '#root/lib/api';
+
+interface Context {
+  code: string;
+  error: null | string;
+}
+
+interface InputEvent {
+  type: 'INPUT';
+  value: string;
+}
+
+interface SubmitEvent {
+  type: 'SUBMIT';
+}
+
+interface ResolveEvent {
+  type: 'RESOLVE';
+}
+
+interface RejectEvent {
+  type: 'REJECT';
+}
+
+type Event = InputEvent | SubmitEvent | ResolveEvent | RejectEvent;
+
+const codeMachine = Machine<Context, Event>(
   {
     id: 'code',
     initial: 'idle',
     context: {
       code: '',
+      error: null,
     },
     states: {
       idle: {
@@ -17,12 +44,23 @@ const codeMachine = Machine(
         },
       },
       pending: {
+        invoke: {
+          id: 'checkCode',
+          src: ({ code }) => checkCode(code),
+          onDone: {
+            target: 'succes',
+          },
+          onError: {
+            target: 'error',
+            actions: assign({ error: (_, e) => e.data.message }),
+          },
+        },
         on: {
-          RESOLVE: 'resolved',
+          RESOLVE: 'succes',
           REJECT: 'error',
         },
       },
-      resolved: {
+      succes: {
         type: 'final',
       },
       error: {
@@ -36,7 +74,7 @@ const codeMachine = Machine(
   {
     actions: {
       input: (ctx, e) => {
-        ctx.code = e.value;
+        if ('value' in e) ctx.code = e.value;
       },
     },
   },
