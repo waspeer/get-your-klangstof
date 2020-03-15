@@ -1,7 +1,7 @@
 import styled, { withTheme } from 'styled-components';
 
 import { colors } from '#root/style';
-import xSvg from './x.svg';
+import xSvg from 'url:./x.svg';
 
 export const ClearButton = styled.div`
   cursor: pointer;
