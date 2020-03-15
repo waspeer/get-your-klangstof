@@ -16,7 +16,7 @@ const codeRoutes: Plugin<{}> = {
     });
 
     server.route({
-      method: 'GET',
+      method: 'POST',
       path: '/{code}/redeem',
       handler: Controllers.redeemCode,
     });
