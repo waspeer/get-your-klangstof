@@ -3,16 +3,13 @@ import 'colors';
 
 import { codeRoutes } from '#root/modules/code';
 
-const port = process.env.PORT || '8000';
+const API_PREFIX = '/api/v1';
+const HOST = process.env.HOST || '0.0.0.0';
+const PORT = process.env.PORT || '8000';
 
-const createServer = async () => {
-  const server = new Hapi.Server({
-    host: '0.0.0.0',
-    port,
-  });
-
-  server.register(codeRoutes, { routes: { prefix: '/codes' } });
-
+export const createServer = async () => {
+  const server = new Hapi.Server({ host: HOST, port: PORT });
+  server.register(codeRoutes, { routes: { prefix: `${API_PREFIX}/codes` } });
   return server;
 };
 
