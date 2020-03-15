@@ -1,10 +1,9 @@
-import { cleanup, render } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import React from 'react';
 
-import Title from './Title';
-import { ThemeProvider } from '../../../style';
+import { renderWithContext } from '#root/lib/test';
 
-const renderWithContext = (e: React.ReactNode) => render(<ThemeProvider>{e}</ThemeProvider>);
+import Title from './Title';
 
 const SECONDARY_TEST_ID = 'secondaryTitle';
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { colors } from '../../../style';
+import { colors } from '#root/style';
 
 export const P = styled.p`
   color: ${colors.dark.fade(0.3)};

@@ -1,12 +1,11 @@
-import { cleanup, fireEvent, render } from '@testing-library/react';
+import { cleanup, fireEvent } from '@testing-library/react';
 import React from 'react';
 
+import { renderWithContext } from '#root/lib/test';
+
 import Button from './Button';
-import { ThemeProvider } from '../../style';
 
 const TEST_ID = 'button';
-
-const renderWithContext = (e: React.ReactNode) => render(<ThemeProvider>{e}</ThemeProvider>);
 
 describe('Button default', () => {
   it('should render provided children', () => {

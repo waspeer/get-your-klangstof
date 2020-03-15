@@ -2,10 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useMachine } from '@xstate/react';
 
+import Button from '#root/shared/Button';
+import Input from '#root/shared/Input';
+import { Title, Paragraph } from '#root/shared/Typography';
+
 import { Form, HomeWrapper } from './_styles';
-import Button from '../../shared/Button';
-import Input from '../../shared/Input';
-import { Title, Paragraph } from '../../shared/Typography';
 import codeMachine from './codeMachine';
 
 interface Params {

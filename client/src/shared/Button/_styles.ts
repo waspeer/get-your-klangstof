@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 
-import { colors } from '../../style';
+import { colors } from '#root/style';
 
 export const IconWrapper = styled.span`
   display: inline-block;

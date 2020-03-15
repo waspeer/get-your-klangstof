@@ -1,12 +1,11 @@
-import { cleanup, fireEvent, render } from '@testing-library/react';
+import { cleanup, fireEvent } from '@testing-library/react';
 import React, { useState } from 'react';
 
+import { renderWithContext } from '#root/lib/test';
+
 import Input from './Input';
-import { ThemeProvider } from '../../style';
 
 const TEST_ID = 'input';
-
-const renderWithContext = (e: React.ReactNode) => render(<ThemeProvider>{e}</ThemeProvider>);
 
 describe('Input', () => {
   it('should render the defaultValue', () => {

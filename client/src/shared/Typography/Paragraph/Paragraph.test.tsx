@@ -1,10 +1,8 @@
-import { render } from '@testing-library/react';
 import React from 'react';
 
-import Paragraph from './Paragraph';
-import { ThemeProvider } from '../../../style';
+import { renderWithContext } from '#root/lib/test';
 
-const renderWithContext = (e: React.ReactNode) => render(<ThemeProvider>{e}</ThemeProvider>);
+import Paragraph from './Paragraph';
 
 describe('Paragraph', () => {
   it('should render the provided children', () => {

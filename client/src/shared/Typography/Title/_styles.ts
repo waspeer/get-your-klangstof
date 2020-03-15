@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { colors } from '../../../style';
+import { colors } from '#root/style';
 
 const HeaderStyle = css`
   color: ${colors.primary};

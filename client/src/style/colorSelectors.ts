@@ -22,13 +22,14 @@ const manipulators = ['fade', 'lighten'] as const;
 const colorNames = Object.keys(theme.colors) as (keyof typeof theme.colors)[];
 
 const colorSelectors = colorNames.reduce((acc, colorName) => {
-  const selector = ((p: ColorSelectorArgs) => p.theme.colors[colorName]) as SelectorWithUtilities;
+  const selector = (({ theme }: ColorSelectorArgs) =>
+    theme.colors[colorName]) as SelectorWithUtilities;
 
   manipulators.forEach((manipulator) => {
-    selector[manipulator] = (...args: Parameters<ColorUtilities[typeof manipulator]>) => (
-      p: ColorSelectorArgs,
-    ) =>
-      Color(p.theme.colors[colorName])
+    selector[manipulator] = (...args: Parameters<ColorUtilities[typeof manipulator]>) => ({
+      theme,
+    }: ColorSelectorArgs) =>
+      Color(theme.colors[colorName])
         [manipulator](...args)
         .string();
   });

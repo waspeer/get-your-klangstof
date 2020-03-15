@@ -1,6 +1,6 @@
 import styled, { withTheme } from 'styled-components';
 
-import { colors } from '../../style';
+import { colors } from '#root/style';
 import xSvg from './x.svg';
 
 export const ClearButton = styled.div`
