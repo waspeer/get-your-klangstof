@@ -13,7 +13,7 @@
     "code:lint": "eslint --ext .js,.jsx,.ts,.tsx \"src/\"",
     "dev": "nodemon src/index.ts",
     "start": "node dist",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
