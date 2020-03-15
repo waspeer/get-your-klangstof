@@ -9,7 +9,7 @@ const PORT = process.env.PORT || '8000';
 
 export const createServer = async () => {
   const server = new Hapi.Server({ host: HOST, port: PORT });
-  server.register(codeRoutes, { routes: { prefix: `${API_PREFIX}/codes` } });
+  await server.register(codeRoutes, { routes: { prefix: `${API_PREFIX}/codes` } });
   return server;
 };
 
