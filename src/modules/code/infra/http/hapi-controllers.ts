@@ -34,6 +34,10 @@ export const redeemCode = async (req: Request, h: ResponseToolkit) => {
   if (result.isFailure()) {
     const { error } = result;
 
+    if (error.type === RedeemCodeErrors.ErrorTypes.NotFound) {
+      return Boom.notFound(error.message);
+    }
+
     if (error.type === RedeemCodeErrors.ErrorTypes.ExceededLimit) {
       return Boom.forbidden(error.message);
     }

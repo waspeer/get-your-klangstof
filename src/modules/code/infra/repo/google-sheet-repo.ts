@@ -19,6 +19,12 @@ class GoogleSheetRepo implements CodeRepo {
     });
   }
 
+  async codeExists(code: string): Promise<boolean> {
+    const sheet = await this.sheet;
+    const rows = await sheet.getRows<StoredCode>();
+    return rows.some((row) => row.code === code);
+  }
+
   async getAll(): Promise<Code[]> {
     const sheet = await this.sheet;
     const rows = await sheet.getRows<StoredCode>();

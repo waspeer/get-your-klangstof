@@ -9,11 +9,11 @@ const codeRoutes: Plugin<{}> = {
   register: (server) => {
     server.register(H2o2);
 
-    // server.route({
-    //   method: 'GET',
-    //   path: '/',
-    //   handler: Controllers.getAllCodes,
-    // });
+    server.route({
+      method: 'GET',
+      path: '/',
+      handler: Controllers.getAllCodes,
+    });
 
     server.route({
       method: 'GET',
