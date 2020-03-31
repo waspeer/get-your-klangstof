@@ -2492,10 +2492,10 @@ google-p12-pem@^2.0.0:
   dependencies:
     node-forge "^0.9.0"
 
-google-spreadsheet@^3.0.9:
-  version "3.0.9"
-  resolved "https://registry.yarnpkg.com/google-spreadsheet/-/google-spreadsheet-3.0.9.tgz#a61b8209cb8a5f64b85fdeb8fc288953a73ed1c5"
-  integrity sha512-Bv0tv4wTKN6oHs/Nz2QjNKJkcItwzlt8O+AAgr/8GS5WiZhXC7jMx6iOjhVKmRkb6pALJ/YHSN/hRVckxo5TUA==
+google-spreadsheet@^3.0.10:
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/google-spreadsheet/-/google-spreadsheet-3.0.10.tgz#3aac6fd2a766a3943a27f09fbb45ed501e54ddcd"
+  integrity sha512-FQNaXAUzE+W9AE3Sd3O9BMPnC4x1FZSjBt+X8G+s9x14nJ/xk0waIJiou44q+E0WKr9fi12UANEwVRAd5vvDEw==
   dependencies:
     axios "^0.19.1"
     google-auth-library "^5.9.1"
