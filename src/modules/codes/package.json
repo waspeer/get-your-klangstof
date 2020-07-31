@@ -1,0 +1,18 @@
+{
+  "name": "get-your-klangstof-codes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Wannes Salomé",
+  "license": "MIT",
+  "scripts": {},
+  "dependencies": {
+    "@koa/router": "^9.3.1",
+    "awilix": "^4.2.6",
+    "koa-basic-auth": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.11.3",
+    "@types/koa-basic-auth": "^2.0.3",
+    "@types/koa__router": "^8.0.2"
+  }
+}

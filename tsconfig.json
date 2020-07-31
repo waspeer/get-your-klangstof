@@ -1,6 +1,6 @@
 {
-  "extends": "../node_modules/poetic/config/typescript/tsconfig.json",
-  "include": ["src/**/*"],
+  "extends": "./node_modules/poetic/config/typescript/tsconfig.json",
+  "include": ["src/**/*", "tests/**/*"],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -10,6 +10,10 @@
     "outDir": "dist",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "target": "es2019"
+    "target": "es2019",
+    "baseUrl": "src",
+    "paths": {
+      "~root/*": ["./*"]
+    }
   }
 }
