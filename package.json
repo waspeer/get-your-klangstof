@@ -6,7 +6,8 @@
   "author": "Wannes Salomé <mail@wannessalome.nl>",
   "license": "MIT",
   "engines": {
-    "node": "12.18.3"
+    "node": "12.18.x",
+    "yarn": "1.22.x"
   },
   "private": true,
   "workspaces": [
