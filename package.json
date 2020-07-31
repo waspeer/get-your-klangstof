@@ -1,14 +1,8 @@
 {
   "name": "get-your-klangstof",
-  "version": "0.0.0",
-  "main": "server.js",
-  "repository": "https://github.com/waspeer/get-your-klangstof.git",
+  "version": "2.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:waspeer/get-your-klangstof.git",
   "author": "Wannes Salomé <mail@wannessalome.nl>",
-  "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "@hapi/hapi": "^19.2.0",
-    "@hapi/inert": "^6.0.1",
-    "dotenv": "^8.2.0"
-  }
+  "license": "MIT"
 }
