@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:waspeer/get-your-klangstof.git",
   "author": "Wannes Salomé <mail@wannessalome.nl>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "poetic": "^1.5.0"
+  }
 }

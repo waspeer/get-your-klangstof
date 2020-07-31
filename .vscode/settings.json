@@ -9,6 +9,5 @@
       "typescript",
       "typescriptreact"
   ],
-  "tslint.enable": false,
-  "svg.preview.background": "black"
+  "tslint.enable": false
 }
