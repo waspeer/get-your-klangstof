@@ -5,6 +5,10 @@
   "repository": "git@github.com:waspeer/get-your-klangstof.git",
   "author": "Wannes Salomé <mail@wannessalome.nl>",
   "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "server"
+  ],
   "devDependencies": {
     "poetic": "^1.5.0"
   }
