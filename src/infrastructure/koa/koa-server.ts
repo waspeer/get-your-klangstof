@@ -24,6 +24,11 @@ export class KoaServer implements Server {
   public constructor({ logger, middleware, serverConfig }: Dependencies) {
     const app = new Koa();
 
+    // TODO add helmet
+    // TODO add compress
+    // TODO add body?
+
+    // TODO use mount to namespace the routers?
     middleware.forEach((mw) => mw.register(app));
 
     this.app = app;

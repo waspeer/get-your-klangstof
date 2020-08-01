@@ -1,6 +1,6 @@
+import { CodesDIContainer } from '../modules/codes/src/infrastructure/codes-di-container';
 import { AppDiContainer } from './app-di-container';
 import type { Server } from './types/server';
-import { CodesDIContainer } from '~root/modules/codes/infrastructure/codes-di-container';
 
 export class Application {
   public static modules = [new CodesDIContainer()];

@@ -1,8 +1,13 @@
 import Router from '@koa/router';
 import type Koa from 'koa';
 import auth from 'koa-basic-auth';
+import { KoaController } from '~root/infrastructure/koa/koa-controller';
 import type { KoaMiddleware } from '~root/infrastructure/koa/types/koa-middleware';
 import { getEnvironmentVariable } from '~root/lib/helpers/get-environment-variable';
+
+interface Dependencies {
+  generateCodesController: KoaController;
+}
 
 const ADMIN_USERNAME = getEnvironmentVariable('ADMIN_USERNAME');
 const ADMIN_PASSWORD = getEnvironmentVariable('ADMIN_PASSWORD');
@@ -10,24 +15,19 @@ const ADMIN_PASSWORD = getEnvironmentVariable('ADMIN_PASSWORD');
 export class KoaRouter implements KoaMiddleware {
   private readonly router: Router;
 
-  public constructor() {
-    const router = new Router();
+  public constructor({ generateCodesController }: Dependencies) {
+    this.router = new Router<{ resource: { id: string } }>()
+      // ASSET ROUTES
+      .post(
+        '/assets/:assetId/generate-codes',
 
-    router.post(
-      '/codes/generate',
+        auth({
+          name: ADMIN_USERNAME,
+          pass: ADMIN_PASSWORD,
+        }),
 
-      auth({
-        name: ADMIN_USERNAME,
-        pass: ADMIN_PASSWORD,
-      }),
-
-      (ctx) => {
-        ctx.status = 201;
-        ctx.body = 'hoi';
-      },
-    );
-
-    this.router = router;
+        (ctx) => generateCodesController.execute(ctx),
+      );
   }
 
   public register(app: Koa) {

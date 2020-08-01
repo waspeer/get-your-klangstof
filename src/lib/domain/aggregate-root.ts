@@ -14,6 +14,7 @@ export abstract class AggregateRoot<
   E extends string = string
 > extends Entity<T> {
   protected createCreatedEvent?(): Event<E>;
+
   public readonly events = new EventQueue<E>();
 
   public constructor(props: T, id?: UUID) {
