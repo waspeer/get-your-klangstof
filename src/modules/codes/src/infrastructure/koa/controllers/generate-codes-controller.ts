@@ -22,9 +22,16 @@ export class GenerateCodesController extends KoaController {
 
   @DelegateError
   public async execute(ctx: Context) {
-    const { assetId } = ctx.params as { assetId: string };
+    const { assetName } = ctx.params as { assetName: string };
 
-    await this.generateCodesFeature.execute({ assetId });
+    this.logger.debug(
+      'GenerateCodesController: Received request for asset with name %s',
+      assetName,
+    );
+
+    await this.generateCodesFeature.execute({ assetName });
+
+    return KoaController.created(ctx);
   }
 
   public handleError(error: Error, ctx: Context) {

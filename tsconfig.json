@@ -16,5 +16,8 @@
     "paths": {
       "~root/*": ["./*"]
     }
+  },
+  "ts-node": {
+    "files": true
   }
 }

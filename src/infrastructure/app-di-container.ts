@@ -1,4 +1,4 @@
-import { asClass, asValue, createContainer } from 'awilix';
+import { asClass, asValue, createContainer, asFunction } from 'awilix';
 import type { AwilixContainer } from 'awilix';
 import { getEnvironmentVariable } from '../lib/helpers/get-environment-variable';
 import type { DIContainer } from '../lib/infrastructure/di-container';
@@ -34,14 +34,14 @@ export class AppDiContainer implements DIContainer {
        * INFRASTRUCTURE
        */
 
-      middleware: asValue(modules.flatMap((module) => module.get('middleware'))),
+      middleware: asFunction(() => modules.flatMap((module) => module.get('middleware'))),
       server: asClass<Server>(KoaServer),
     });
 
     // REGISTER COMMON DEPENDENCIES
     modules.forEach(({ container }) => {
       container.register({
-        logger: this.get('logger'),
+        logger: asValue(this.get('logger')),
       });
     });
   }

@@ -29,7 +29,7 @@ export class Asset extends AggregateRoot<Props> {
 
   public generateCodes(options: { amount?: number } = {}) {
     const { amount = 10 } = options;
-    const codes = [...Array(amount)].map(() => new Code());
+    const codes = [...Array(amount)].map(() => new Code({ assetName: this.name }));
 
     this.props.codes.push(...codes);
   }

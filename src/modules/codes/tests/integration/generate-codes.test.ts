@@ -14,7 +14,6 @@ const ADMIN_PASSWORD = getEnvironmentVariable('ADMIN_PASSWORD');
 const container = new CodesDIContainer();
 const mockAssetRepository = createMockAssetRepository();
 const mockLogger = createMockLogger();
-
 container.container.register({
   assetRepository: asValue(mockAssetRepository),
   logger: asValue(mockLogger),
@@ -22,8 +21,11 @@ container.container.register({
 
 const router = container.get<KoaMiddleware>('router');
 const request = createKoaSupertestAgentFromRouter(router);
-const url = createApiUrl('/assets/test-resource/generate-codes');
-const authenticatedRequest = () => request.post(url).auth(ADMIN_USERNAME, ADMIN_PASSWORD);
+const createUrl = () => {
+  const unique = Date.now().toString();
+  return createApiUrl(`/assets/${unique}-resource/generate-codes`);
+};
+const authenticatedRequest = () => request.post(createUrl()).auth(ADMIN_USERNAME, ADMIN_PASSWORD);
 
 describe('Generating Codes', () => {
   afterEach(() => {
@@ -31,7 +33,7 @@ describe('Generating Codes', () => {
   });
 
   it('should be protected with basic authentication', async () => {
-    await request.post(url).expect(401);
+    await request.post(createUrl()).expect(401);
     await authenticatedRequest().expect(({ status }) => status !== 401);
   });
 
@@ -43,7 +45,7 @@ describe('Generating Codes', () => {
     const fakeAsset = createFakeAsset();
 
     jest.spyOn(fakeAsset, 'generateCodes');
-    mockAssetRepository.findById.mockResolvedValue(fakeAsset);
+    mockAssetRepository.findByName.mockResolvedValue(fakeAsset);
 
     await authenticatedRequest();
 

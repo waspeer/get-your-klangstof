@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 import type { Logger } from '~root/lib/logger';
 
-export function createMockLogger(): Logger {
+export function createMockLogger({ console: log }: { console?: boolean } = {}): Logger {
   return {
-    debug: jest.fn(),
-    error: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
+    debug: log ? console.log : jest.fn(),
+    error: log ? console.log : jest.fn(),
+    info: log ? console.log : jest.fn(),
+    warn: log ? console.log : jest.fn(),
   };
 }

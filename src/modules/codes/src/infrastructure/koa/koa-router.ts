@@ -19,7 +19,7 @@ export class KoaRouter implements KoaMiddleware {
     this.router = new Router<{ resource: { id: string } }>()
       // ASSET ROUTES
       .post(
-        '/assets/:assetId/generate-codes',
+        '/assets/:assetName/generate-codes',
 
         auth({
           name: ADMIN_USERNAME,

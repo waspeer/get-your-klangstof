@@ -5,6 +5,10 @@ type ControllerWithErrorHandler = KoaController & { handleError(error: Error, ct
 export abstract class KoaController {
   public abstract async execute(ctx: Context): Promise<void>;
 
+  static created(ctx: Context) {
+    ctx.status = 201;
+  }
+
   static notFound(ctx: Context, message = 'Not Found') {
     ctx.status = 404;
     ctx.body = {
