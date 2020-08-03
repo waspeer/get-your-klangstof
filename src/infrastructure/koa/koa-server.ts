@@ -1,5 +1,6 @@
 import type { Server as HttpServer } from 'http';
 import Koa from 'koa';
+import mount from 'koa-mount';
 import type { Logger } from '../../lib/logger';
 import type { Server } from '../types/server';
 import type { KoaMiddleware } from './types/koa-middleware';
@@ -29,7 +30,7 @@ export class KoaServer implements Server {
     // TODO add body?
 
     // TODO use mount to namespace the routers?
-    middleware.forEach((mw) => mw.register(app));
+    middleware.forEach((mw) => app.use(mount(mw.namespace ?? '/', mw.get())));
 
     this.app = app;
     this.config = serverConfig;

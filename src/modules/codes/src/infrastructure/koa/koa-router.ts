@@ -1,5 +1,4 @@
 import Router from '@koa/router';
-import type Koa from 'koa';
 import auth from 'koa-basic-auth';
 import { KoaController } from '~root/infrastructure/koa/koa-controller';
 import type { KoaMiddleware } from '~root/infrastructure/koa/types/koa-middleware';
@@ -38,7 +37,7 @@ export class KoaRouter implements KoaMiddleware {
       );
   }
 
-  public register(app: Koa) {
-    app.use(this.router.routes());
+  public get() {
+    return this.router.routes();
   }
 }

@@ -1,5 +1,6 @@
-import Koa from 'koa';
+import { Middleware } from 'koa';
 
 export interface KoaMiddleware {
-  register(app: Koa): void;
+  get(): Middleware<any, any>;
+  namespace?: string;
 }
