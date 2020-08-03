@@ -3,7 +3,9 @@ module.exports = {
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     'import/extensions': 'off',
+    'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.test.ts'] }],
     'import/no-unresolved': 'off',
     'import/order': ['error', { alphabetize: { order: 'asc', caseInsensitive: true } }],
     'import/prefer-default-export': 'off',

@@ -1,5 +1,5 @@
 {
-  "name": "get-your-klangstof-codes",
+  "name": "codes",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Wannes Salomé",
@@ -9,12 +9,14 @@
     "@koa/router": "^9.3.1",
     "awilix": "^4.2.6",
     "google-spreadsheet": "^3.0.11",
+    "got": "^11.5.1",
     "koa-basic-auth": "^4.0.0",
     "sentencer": "^0.2.1"
   },
   "devDependencies": {
     "@types/koa": "^2.11.3",
     "@types/koa-basic-auth": "^2.0.3",
-    "@types/koa__router": "^8.0.2"
+    "@types/koa__router": "^8.0.2",
+    "portfinder": "^1.0.28"
   }
 }

@@ -1,5 +1,5 @@
-import type { AssetRepository } from '../../domain/repositories/asset-repository';
-import { AssetNotFoundError } from '../errors/asset-not-found-error';
+import type { AssetRepository } from '../../../domain/repositories/asset-repository';
+import { AssetNotFoundError } from '../../errors/asset-not-found-error';
 import type { Feature } from '~root/lib/application/feature';
 import type { Logger } from '~root/lib/logger';
 

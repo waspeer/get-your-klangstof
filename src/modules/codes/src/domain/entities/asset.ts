@@ -1,18 +1,17 @@
-import { Code } from '../value-objects/code';
+import { Code } from './code';
 import { AggregateRoot } from '~root/lib/domain/aggregate-root';
-import type { UUID } from '~root/lib/domain/uuid';
+import { UUID } from '~root/lib/domain/uuid';
 
 interface Props {
   codes: Code[];
-  name: string;
   url: string;
 }
 
-type ConstructorProps = Omit<Props, 'codes'> & Partial<Pick<Props, 'codes'>>;
+type ConstructorProps = Omit<Props, 'codes'> & Partial<Pick<Props, 'codes'>> & { name: string };
 
 export class Asset extends AggregateRoot<Props> {
-  public constructor({ codes = [], ...rest }: ConstructorProps, id?: UUID) {
-    super({ codes, ...rest }, id);
+  public constructor({ codes = [], name, url }: ConstructorProps) {
+    super({ codes, url }, new UUID(name));
   }
 
   get codes() {
@@ -20,7 +19,7 @@ export class Asset extends AggregateRoot<Props> {
   }
 
   get name() {
-    return this.props.name;
+    return this.id.value;
   }
 
   get url() {

@@ -7,6 +7,7 @@ import { getEnvironmentVariable } from '~root/lib/helpers/get-environment-variab
 
 interface Dependencies {
   generateCodesController: KoaController;
+  redeemCodeController: KoaController;
 }
 
 const ADMIN_USERNAME = getEnvironmentVariable('ADMIN_USERNAME');
@@ -15,7 +16,7 @@ const ADMIN_PASSWORD = getEnvironmentVariable('ADMIN_PASSWORD');
 export class KoaRouter implements KoaMiddleware {
   private readonly router: Router;
 
-  public constructor({ generateCodesController }: Dependencies) {
+  public constructor({ generateCodesController, redeemCodeController }: Dependencies) {
     this.router = new Router<{ resource: { id: string } }>()
       // ASSET ROUTES
       .post(
@@ -27,6 +28,13 @@ export class KoaRouter implements KoaMiddleware {
         }),
 
         (ctx) => generateCodesController.execute(ctx),
+      )
+
+      // CODE ROUTES
+      .post(
+        '/codes/:codeId/redeem',
+
+        (ctx) => redeemCodeController.execute(ctx),
       );
   }
 

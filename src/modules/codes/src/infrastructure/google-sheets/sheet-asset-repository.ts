@@ -1,7 +1,6 @@
 import type { Asset } from '../../domain/entities/asset';
 import type { AssetRepository } from '../../domain/repositories/asset-repository';
 import type { CodeRepository } from '../../domain/repositories/code-repository';
-import { UniqueConstraintError } from '../errors/unique-constraint-error';
 import { AssetMapper } from '../mapper/asset-mapper';
 import { SheetRepository } from './sheet-repository';
 import type { SheetConfig } from './sheet-repository';
@@ -25,29 +24,15 @@ export class SheetAssetRepository extends SheetRepository implements AssetReposi
     this.logger = logger;
   }
 
-  public async findById(id: string) {
-    const sheet = await this.getSheet();
-    const rows = await sheet.getRows<SheetAsset>();
-    const asset = rows.find((sheetAsset) => sheetAsset.id === id);
-
-    return asset ? AssetMapper.toDomain(asset) : undefined;
-  }
-
   public async findByName(name: string) {
-    const sheet = await this.getSheet();
-    const rows = await sheet.getRows<SheetAsset>();
-    const asset = rows.find((sheetAsset) => sheetAsset.name === name);
-
-    return asset ? AssetMapper.toDomain(asset) : undefined;
+    return this.findOne({ name });
   }
 
   public async store(asset: Asset) {
     const sheet = await this.getSheet();
     const sheetAsset = AssetMapper.toPersistence(asset);
     const existingRows = await sheet.getRows<SheetAsset>();
-    const existingAsset = existingRows.find(
-      ({ id, name }) => id === asset.id.value || name === asset.name,
-    );
+    const existingAsset = existingRows.find(({ name }) => name === asset.name);
 
     if (!existingAsset) {
       // CREATE
@@ -55,12 +40,6 @@ export class SheetAssetRepository extends SheetRepository implements AssetReposi
 
       this.logger.debug('SheetAssetRepository: asset %s successfully created', asset.name);
     } else {
-      if (!(existingAsset.id === asset.id.value && existingAsset.name === asset.name)) {
-        throw new UniqueConstraintError(
-          `Unable to store asset: asset with the id (${asset.id.value}) or name (${asset.name}) already exists`,
-        );
-      }
-
       // UPDATE
       Object.entries(sheetAsset).forEach(([key, value]) => {
         existingAsset[key as keyof SheetAsset] = value;
@@ -75,5 +54,23 @@ export class SheetAssetRepository extends SheetRepository implements AssetReposi
     }
 
     await this.codeRepository.store(asset.codes);
+  }
+
+  private async findOne(options: Partial<SheetAsset>) {
+    const sheet = await this.getSheet();
+    const rows = await sheet.getRows<SheetAsset>();
+    const asset = rows.find((sheetAsset) => {
+      return Object.entries(options).every(
+        ([key, value]) => sheetAsset[key as keyof SheetAsset] === value,
+      );
+    });
+
+    if (!asset) {
+      return undefined;
+    }
+
+    const codes = await this.codeRepository.findByAssetId(asset.name);
+
+    return asset ? AssetMapper.toDomain(asset, codes) : undefined;
   }
 }

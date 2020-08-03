@@ -1,12 +1,15 @@
 import { createContainer, asClass, asFunction, asValue } from 'awilix';
 import type { AwilixContainer } from 'awilix';
-import { GenerateCodesFeature } from '../application/features/generate-codes-feature';
+import { GenerateCodesFeature } from '../application/features/commands/generate-codes-feature';
+import { RedeemCodeFeature } from '../application/features/commands/redeem-code-feature';
+import { GetAssetByCodeFeature } from '../application/features/queries/get-asset-by-code-feature';
 import type { AssetRepository } from '../domain/repositories/asset-repository';
 import { CodeRepository } from '../domain/repositories/code-repository';
 import { SheetAssetRepository } from './google-sheets/sheet-asset-repository';
 import { SheetCodeRepository } from './google-sheets/sheet-code-repository';
 import { SheetConfig } from './google-sheets/sheet-repository';
 import { GenerateCodesController } from './koa/controllers/generate-codes-controller';
+import { RedeemCodeController } from './koa/controllers/redeem-code-controller';
 import { KoaRouter } from './koa/koa-router';
 import type { KoaController } from '~root/infrastructure/koa/koa-controller';
 import type { KoaMiddleware } from '~root/infrastructure/koa/types/koa-middleware';
@@ -57,6 +60,7 @@ export class CodesDIContainer implements AwilixDIContainer {
       // KOA
       router: asClass<KoaMiddleware>(KoaRouter),
       generateCodesController: asClass<KoaController>(GenerateCodesController),
+      redeemCodeController: asClass<KoaController>(RedeemCodeController),
 
       // REPOSITORIES
       assetRepository: asClass<AssetRepository>(SheetAssetRepository),
@@ -68,6 +72,8 @@ export class CodesDIContainer implements AwilixDIContainer {
 
       // FEATURES
       generateCodesFeature: asClass(GenerateCodesFeature),
+      getAssetByCodeFeature: asClass(GetAssetByCodeFeature),
+      redeemCodeFeature: asClass(RedeemCodeFeature),
 
       /**
        * EXPORTS

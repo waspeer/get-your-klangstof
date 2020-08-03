@@ -1,6 +1,6 @@
 import type { Context } from 'koa';
 import { AssetNotFoundError } from '../../../application/errors/asset-not-found-error';
-import type { GenerateCodesFeature } from '../../../application/features/generate-codes-feature';
+import type { GenerateCodesFeature } from '../../../application/features/commands/generate-codes-feature';
 import { KoaController, DelegateError } from '~root/infrastructure/koa/koa-controller';
 import { UnexpectedError } from '~root/lib/errors/unexpected-error';
 import type { Logger } from '~root/lib/logger';

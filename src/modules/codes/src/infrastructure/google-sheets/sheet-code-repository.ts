@@ -1,5 +1,5 @@
+import type { Code } from '../../domain/entities/code';
 import type { CodeRepository } from '../../domain/repositories/code-repository';
-import type { Code } from '../../domain/value-objects/code';
 import { CodeMapper } from '../mapper/code-mapper';
 import { SheetRepository } from './sheet-repository';
 import type { SheetConfig } from './sheet-repository';
@@ -20,12 +20,12 @@ export class SheetCodeRepository extends SheetRepository implements CodeReposito
     this.logger = logger;
   }
 
-  public async find(code: string) {
-    const sheet = await this.getSheet();
-    const rows = await sheet.getRows<SheetCode>();
-    const sheetCode = rows.find((row) => row.code === code);
+  public async findByAssetId(assetId: string) {
+    return this.findMany({ assetName: assetId });
+  }
 
-    return sheetCode ? CodeMapper.toDomain(sheetCode) : undefined;
+  public async findById(code: string) {
+    return this.findOne({ code });
   }
 
   public async store(codeOrCodes: Code | Code[]) {
@@ -46,6 +46,7 @@ export class SheetCodeRepository extends SheetRepository implements CodeReposito
     }
 
     if (codesToUpdate.length) {
+      // Promise.all rendered unpredictable results unfortunately
       // eslint-disable-next-line no-restricted-syntax
       for (const sheetCode of sheetCodes) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -61,5 +62,25 @@ export class SheetCodeRepository extends SheetRepository implements CodeReposito
         this.logger.debug('SheetCodeRepository: Code %s sucessfully updated', sheetCode.code);
       }
     }
+  }
+
+  private async findOne(options: Partial<SheetCode>) {
+    // This is ok for now since the only way to query one result is to
+    // fetch all the rows and filter them
+    const codes = await this.findMany(options);
+
+    return codes[0];
+  }
+
+  private async findMany(options: Partial<SheetCode>) {
+    const sheet = await this.getSheet();
+    const rows = await sheet.getRows<SheetCode>();
+    const codes = rows.filter((sheetCode) => {
+      return Object.entries(options).every(
+        ([key, value]) => sheetCode[key as keyof SheetCode] === value,
+      );
+    });
+
+    return codes.map(CodeMapper.toDomain);
   }
 }
