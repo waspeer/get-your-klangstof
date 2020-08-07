@@ -2,20 +2,21 @@
   "extends": "./node_modules/poetic/config/typescript/tsconfig.json",
   "include": ["src/**/*", "tests/**/*"],
   "compilerOptions": {
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "src",
     "esModuleInterop": true,
     "experimentalDecorators": true,
+    "jsx": "react",
     "lib": ["es2020"],
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist",
+    "paths": { "~root/*": ["./*"] },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "target": "es2019",
-    "baseUrl": "src",
-    "paths": {
-      "~root/*": ["./*"]
-    }
+    "plugins": [{ "transform": "typescript-transform-paths" }]
   },
   "ts-node": {
     "files": true

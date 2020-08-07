@@ -1,0 +1,30 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Wannes Salomé",
+  "license": "MIT",
+  "scripts": {
+    "build": ""
+  },
+  "dependencies": {
+    "@sindresorhus/class-names": "^1.1.0",
+    "@xstate/react": "^0.8.1",
+    "awilix": "^4.2.6",
+    "koa-static": "^5.0.0",
+    "parcel-bundler": "^1.12.4",
+    "postcss-preset-env": "^6.7.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "regenerator-runtime": "^0.13.7",
+    "tailwindcss": "^1.6.2",
+    "xstate": "^4.11.0"
+  },
+  "devDependencies": {
+    "@types/koa-static": "^4.0.1",
+    "@types/parcel-bundler": "^1.12.1",
+    "@types/react": "^16.9.44",
+    "@types/react-dom": "^16.9.8",
+    "postcss-modules": "^3.2.0"
+  }
+}

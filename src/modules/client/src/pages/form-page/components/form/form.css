@@ -1,0 +1,21 @@
+.wrapper {
+  @apply border-primary border-2 border-solid rounded-super;
+  @apply max-w-md w-full p-6;
+  @apply shadow-funky;
+  @apply text-center;
+  background-color: color-mod(theme('colors.neutral') blend(white 30%));
+}
+
+.text {
+  @apply mb-5;
+}
+
+.input {
+  @apply w-full p-3;
+  @apply text-2xl text-center font-light;
+  @apply border border-solid border-gray-500 rounded-md;
+
+  &:focus {
+    @apply outline-none border-primary shadow-outline;
+  }
+}

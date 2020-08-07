@@ -29,7 +29,6 @@ export class KoaServer implements Server {
     // TODO add compress
     // TODO add body?
 
-    // TODO use mount to namespace the routers?
     middleware.forEach((mw) => app.use(mount(mw.namespace ?? '/', mw.get())));
 
     this.app = app;

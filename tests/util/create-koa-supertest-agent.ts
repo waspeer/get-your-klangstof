@@ -12,7 +12,7 @@ export function createKoaSupertestAgentFromServer(server: KoaServer) {
 export function createKoaSupertestAgentFromRouter(router: KoaMiddleware) {
   const app = new Koa();
 
-  router.register(app);
+  app.use(router.get());
 
   return agent(http.createServer(app.callback()));
 }
