@@ -5,6 +5,7 @@ import type { KoaMiddleware } from '~root/infrastructure/koa/types/koa-middlewar
 import { getEnvironmentVariable } from '~root/lib/helpers/get-environment-variable';
 
 interface Dependencies {
+  downloadAssetController: KoaController;
   generateCodesController: KoaController;
   redeemCodeController: KoaController;
 }
@@ -15,7 +16,11 @@ const ADMIN_PASSWORD = getEnvironmentVariable('ADMIN_PASSWORD');
 export class KoaRouter implements KoaMiddleware {
   private readonly router: Router;
 
-  public constructor({ generateCodesController, redeemCodeController }: Dependencies) {
+  public constructor({
+    downloadAssetController,
+    generateCodesController,
+    redeemCodeController,
+  }: Dependencies) {
     this.router = new Router<{ resource: { id: string } }>()
       // ASSET ROUTES
       .post(
@@ -27,6 +32,12 @@ export class KoaRouter implements KoaMiddleware {
         }),
 
         (ctx) => generateCodesController.execute(ctx),
+      )
+
+      .get(
+        '/download/:downloadToken',
+
+        (ctx) => downloadAssetController.execute(ctx),
       )
 
       // CODE ROUTES

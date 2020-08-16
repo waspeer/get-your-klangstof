@@ -1,30 +1,25 @@
-import got from 'got';
 import type { Context } from 'koa';
 import { AssetNotFoundError } from '../../../application/errors/asset-not-found-error';
 import { CodeAlreadyRedeemedError } from '../../../application/errors/code-already-redeemed-error';
 import { CodeNotFoundError } from '../../../application/errors/code-not-found-error';
-import type { RedeemCodeFeature } from '../../../application/features/commands/redeem-code-feature';
-import type { GetAssetByCodeFeature } from '../../../application/features/queries/get-asset-by-code-feature';
+import type { RedeemCodeForDownloadTokenFeature } from '../../../application/features/commands/redeem-code-for-download-token-feature';
 import { DelegateError, KoaController } from '~root/infrastructure/koa/koa-controller';
 import { UnexpectedError } from '~root/lib/errors/unexpected-error';
 import type { Logger } from '~root/lib/logger';
 
 interface Dependencies {
   logger: Logger;
-  getAssetByCodeFeature: GetAssetByCodeFeature;
-  redeemCodeFeature: RedeemCodeFeature;
+  redeemCodeForDownloadTokenFeature: RedeemCodeForDownloadTokenFeature;
 }
 
 export class RedeemCodeController extends KoaController {
-  private readonly getAssetByCodeFeature: GetAssetByCodeFeature;
   private readonly logger: Logger;
-  private readonly redeemCodeFeature: RedeemCodeFeature;
+  private readonly redeemCodeForDownloadTokenFeature: RedeemCodeForDownloadTokenFeature;
 
-  public constructor({ getAssetByCodeFeature, logger, redeemCodeFeature }: Dependencies) {
+  public constructor({ logger, redeemCodeForDownloadTokenFeature }: Dependencies) {
     super();
-    this.getAssetByCodeFeature = getAssetByCodeFeature;
     this.logger = logger;
-    this.redeemCodeFeature = redeemCodeFeature;
+    this.redeemCodeForDownloadTokenFeature = redeemCodeForDownloadTokenFeature;
   }
 
   @DelegateError
@@ -33,17 +28,11 @@ export class RedeemCodeController extends KoaController {
 
     this.logger.debug('RedeemCodeController: Received request to redeem code %s', codeId);
 
-    await this.redeemCodeFeature.execute({ codeId });
+    const downloadToken = await this.redeemCodeForDownloadTokenFeature.execute({ codeId });
 
-    const asset = await this.getAssetByCodeFeature.execute({ codeId });
-    const { headers } = await got.head(asset.url);
-
-    ctx.set({
-      'Content-type': headers['content-type'] || 'application/zip',
-      'Content-length': headers['content-length'] || '',
-      'Content-disposition': `attachment; filename=${asset.name ?? 'download.zip'}`,
-    });
-    ctx.body = got.stream(asset.url);
+    ctx.body = {
+      token: downloadToken.value,
+    };
   }
 
   public handleError(error: Error, ctx: Context) {

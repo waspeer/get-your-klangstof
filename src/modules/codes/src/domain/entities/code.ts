@@ -1,5 +1,6 @@
 import assert from 'assert';
 import Sentencer from 'sentencer';
+import { DownloadToken } from '../value-objects/download-token';
 import { Entity } from '~root/lib/domain/entity';
 import { UUID } from '~root/lib/domain/uuid';
 
@@ -34,9 +35,13 @@ export class Code extends Entity<Props> {
     return this.props.useLimit;
   }
 
-  public redeem() {
+  public redeemForDownloadToken() {
     assert(this.canBeRedeemed, `Code cannot be used more than ${this.useLimit} time(s)`);
 
     this.props.used += 1;
+
+    return new DownloadToken({
+      assetName: this.assetName,
+    });
   }
 }

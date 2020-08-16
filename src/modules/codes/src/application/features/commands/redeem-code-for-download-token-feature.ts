@@ -1,4 +1,5 @@
 import type { CodeRepository } from '../../../domain/repositories/code-repository';
+import { DownloadToken } from '../../../domain/value-objects/download-token';
 import { CodeAlreadyRedeemedError } from '../../errors/code-already-redeemed-error';
 import type { GetAssetByCodeFeature } from '../queries/get-asset-by-code-feature';
 import type { Feature } from '~root/lib/application/feature';
@@ -14,7 +15,7 @@ interface Arguments {
   codeId: string;
 }
 
-export class RedeemCodeFeature implements Feature<Arguments, void> {
+export class RedeemCodeForDownloadTokenFeature implements Feature<Arguments, DownloadToken> {
   private readonly codeRepository: CodeRepository;
   private readonly getAssetByCodeFeature: GetAssetByCodeFeature;
   private readonly logger: Logger;
@@ -36,10 +37,12 @@ export class RedeemCodeFeature implements Feature<Arguments, void> {
       throw new CodeAlreadyRedeemedError(code.useLimit);
     }
 
-    code.redeem();
+    const downloadToken = code.redeemForDownloadToken();
 
     await this.codeRepository.store(code);
 
     this.logger.debug('RedeemCodeFeature: code with id %s successfully redeemed', code.id);
+
+    return downloadToken;
   }
 }
