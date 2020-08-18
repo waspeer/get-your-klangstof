@@ -29,6 +29,20 @@
  * FACE
  */
 
+@keyframes smileyWaiting {
+  0% {
+    transform: rotate(-8deg);
+  }
+
+  50% {
+    transform: rotate(8deg);
+  }
+
+  100% {
+    transform: rotate(-8deg);
+  }
+}
+
 .face {
   --primary: #ff88d9;
   --faceSize: 100px;
@@ -40,6 +54,11 @@
   height: var(--faceSize);
   width: var(--faceSize);
   position: relative;
+  backface-visibility: hidden;
+
+  &.waiting {
+    animation: smileyWaiting 2s infinite;
+  }
 }
 
 /* EYES */

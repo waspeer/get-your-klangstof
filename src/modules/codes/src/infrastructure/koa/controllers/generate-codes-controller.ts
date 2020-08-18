@@ -37,7 +37,7 @@ export class GenerateCodesController extends KoaController {
   public handleError(error: Error, ctx: Context) {
     switch (error.constructor) {
       case AssetNotFoundError:
-        return KoaController.notFound(ctx, error.message);
+        return KoaController.notFound(ctx, error);
       default:
         this.logger.error(
           'GenerateCodesController: the error could not be resolved, type of error was: %s',

@@ -53,7 +53,7 @@ describe('Redeem Code', () => {
     const { body } = await request().expect(200);
 
     expect(body).toEqual({
-      token: expect.any(String),
+      downloadLink: expect.any(String),
     });
   });
 });

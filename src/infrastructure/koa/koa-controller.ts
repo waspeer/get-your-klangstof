@@ -9,18 +9,12 @@ export abstract class KoaController {
     ctx.status = 201;
   }
 
-  static forbidden(ctx: Context, message = 'Forbidden') {
-    ctx.status = 403;
-    ctx.body = {
-      error: message,
-    };
+  static forbidden(ctx: Context, error: Error) {
+    ctx.throw(403, error);
   }
 
-  static notFound(ctx: Context, message = 'Not Found') {
-    ctx.status = 404;
-    ctx.body = {
-      error: message,
-    };
+  static notFound(ctx: Context, error: Error) {
+    ctx.throw(404, error);
   }
 }
 

@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from 'nanoid';
 
 /**
  * UUID class
@@ -16,7 +16,7 @@ export class UUID {
    * @param {[string]} id - The ID
    */
   constructor(id?: string) {
-    this.value = id || uuidv4();
+    this.value = id || nanoid();
   }
 
   /**

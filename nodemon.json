@@ -4,6 +4,6 @@
   },
   "exec": "ts-node -r tsconfig-paths/register ./src/app.ts",
   "ext": "ts",
-  "ignore": ["tests"],
+  "ignore": ["tests", "src/modules/client/*"],
   "watch": ["src"]
 }

@@ -1,7 +1,7 @@
 import type { Asset } from '../../../domain/entities/asset';
 import type { AssetRepository } from '../../../domain/repositories/asset-repository';
 import type { CodeRepository } from '../../../domain/repositories/code-repository';
-import { AssetNotFoundError } from '../../errors/asset-not-found-error';
+import { AssociatedAssetNotFoundError } from '../../errors/associated-asset-not-found-error';
 import { CodeNotFoundError } from '../../errors/code-not-found-error';
 import type { Feature } from '~root/lib/application/feature';
 import type { Logger } from '~root/lib/logger';
@@ -41,7 +41,7 @@ export class GetAssetByCodeFeature implements Feature<Arguments, Asset> {
     if (!asset) {
       this.logger.debug('GetAssetByCodeFeature: asset with name %s was not found', code.assetName);
 
-      throw new AssetNotFoundError(code.assetName);
+      throw new AssociatedAssetNotFoundError({ code: codeId });
     }
 
     this.logger.debug(

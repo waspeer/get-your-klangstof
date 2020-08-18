@@ -1,7 +1,7 @@
 import type { Asset } from '../../../domain/entities/asset';
 import type { AssetRepository } from '../../../domain/repositories/asset-repository';
 import { DownloadToken } from '../../../domain/value-objects/download-token';
-import { AssetNotFoundError } from '../../errors/asset-not-found-error';
+import { AssociatedAssetNotFoundError } from '../../errors/associated-asset-not-found-error';
 import type { Feature } from '~root/lib/application/feature';
 
 interface Arguments {
@@ -26,7 +26,7 @@ export class GetAssetByDownloadTokenFeature implements Feature<Arguments, Asset>
     const asset = await this.assetRepository.findByName(assetName);
 
     if (!asset) {
-      throw new AssetNotFoundError(assetName);
+      throw new AssociatedAssetNotFoundError({ token: downloadToken.value });
     }
 
     return asset;

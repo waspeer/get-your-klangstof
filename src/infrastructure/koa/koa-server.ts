@@ -28,6 +28,24 @@ export class KoaServer implements Server {
     // TODO add helmet
     // TODO add compress
     // TODO add body?
+    // TODO make sure to return JSON on error
+
+    app.use(async (ctx, next) => {
+      try {
+        await next();
+
+        if (ctx.status === 404) {
+          ctx.throw(404, 'This endpoint does not exists');
+        }
+      } catch (error) {
+        ctx.status = error.statusCode || error.status || 500;
+        ctx.body = {
+          statusCode: ctx.status,
+          error: error.constructor.name,
+          message: error.message,
+        };
+      }
+    });
 
     middleware.forEach((mw) => app.use(mount(mw.namespace ?? '/', mw.get())));
 

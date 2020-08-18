@@ -1,6 +1,6 @@
 import got from 'got';
 import type { Context } from 'koa';
-import { AssetNotFoundError } from '../../../application/errors/asset-not-found-error';
+import { AssociatedAssetNotFoundError } from '../../../application/errors/associated-asset-not-found-error';
 import { InvalidTokenError } from '../../../domain/errors/invalid-token-error';
 import { TokenExpiredError } from '../../../domain/errors/token-expired-error';
 import { DelegateError, KoaController } from '~root/infrastructure/koa/koa-controller';
@@ -47,9 +47,9 @@ export class DownloadAssetController extends KoaController {
     switch (error.constructor) {
       case InvalidTokenError:
       case TokenExpiredError:
-        return KoaController.forbidden(ctx, error.message);
-      case AssetNotFoundError:
-        return KoaController.notFound(ctx, error.message);
+        return KoaController.forbidden(ctx, error);
+      case AssociatedAssetNotFoundError:
+        return KoaController.notFound(ctx, error);
       default:
         this.logger.error(
           'GenerateCodesController: the error could not be resolved, type of error was: %s',
