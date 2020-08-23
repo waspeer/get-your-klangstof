@@ -1,11 +1,18 @@
 .container {
-  @apply min-h-screen flex flex-col justify-center items-center;
+  @apply min-h-screen;
+  @apply flex flex-col justify-center items-center;
+  @apply px-2;
+}
+
+.top,
+.bottom {
+  width: 100%;
+  height: 50vh;
 }
 
 /* HEADER */
-.header {
-  @apply relative w-full;
-  height: 200px;
+.top {
+  @apply relative;
 
   & .titleWrapper,
   & .faceWrapper {
@@ -30,12 +37,21 @@
   }
 }
 
-.box {
+.box,
+.mobileDisclaimer {
   @apply border-primary border-2 border-solid rounded-super;
-  @apply max-w-md w-full p-6;
-  @apply shadow-funky;
-  @apply text-center;
+  @apply max-w-md w-full p-4;
   @apply relative overflow-hidden;
+  @apply text-center;
+
+  @screen md {
+    @apply p-6;
+  }
+}
+
+.box {
+  @apply shadow-funky;
+  margin: 0 auto;
   background-color: color-mod(theme('colors.neutral') blend(white 30%));
 
   &.loading {
@@ -49,6 +65,12 @@
   }
 }
 
+/* MOBILE DISCLAIMER */
+
+.mobileDisclaimer {
+  @apply mb-6;
+}
+
 /* FORM */
 
 .form {
@@ -60,10 +82,30 @@
     @apply mb-5;
   }
 
-  & .input {
+  & input,
+  & button {
     @apply w-full p-3;
-    @apply text-2xl text-center font-light;
-    @apply border border-solid border-gray-500 rounded-md;
+    @apply text-2xl text-center;
+    @apply border border-solid rounded-md;
+    @apply relative;
+
+    &:not(:last-child) {
+      @apply rounded-b-none;
+    }
+
+    &:not(:first-child) {
+      @apply rounded-t-none;
+      margin-top: -1px;
+    }
+
+    &:focus {
+      @apply z-10;
+    }
+  }
+
+  & input {
+    @apply border-gray-500;
+    @apply font-light;
 
     &:focus {
       @apply outline-none border-primary shadow-outline;
@@ -71,6 +113,16 @@
 
     &:disabled {
       @apply bg-gray-200;
+    }
+  }
+
+  & button {
+    @apply border-primary;
+    @apply text-primary;
+
+    &:disabled {
+      @apply border-gray-500;
+      @apply text-gray-500;
     }
   }
 }
@@ -139,8 +191,12 @@
 
 .face {
   --primary: #ff88d9;
-  --faceSize: 100px;
   --borderWidth: 3px;
+  --faceSize: 150px;
+
+  @screen md {
+    --faceSize: 100px;
+  }
 
   border: var(--primary) var(--borderWidth) solid;
   border-radius: 50%;
@@ -160,12 +216,12 @@
 
   &::before {
     /* EYES */
-    --eyeOffset: 25px;
-    --eyeSize: 15px;
+    --eyeOffset: calc(var(--faceSize) / 4);
+    --eyeSize: calc(var(--faceSize) / 6.5);
 
     content: '';
     position: absolute;
-    top: 25px;
+    top: var(--eyeOffset);
     width: var(--eyeSize);
     height: var(--eyeSize);
     border-radius: 50%;

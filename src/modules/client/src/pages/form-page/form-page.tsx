@@ -1,20 +1,22 @@
 import classNames from '@sindresorhus/class-names';
 import { useMachine } from '@xstate/react';
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import Confetti from 'react-dom-confetti';
 import { assign, Machine } from 'xstate';
 import { redeemCode, RedeemCodeErrors } from '../../interaction/codes/code-client';
 import { getRandomArrayItem } from '../../lib/util/get-random-array-item';
 import s from './form-page.css';
 
-// TODO offset inputs?
+// TODO move useForm hook to seperate file
 
 interface Context {
-  code: string;
+  form: {
+    code: string;
+    email: string;
+  };
+  formType: 'direct' | 'email';
   downloadLink: string | null;
-  error: RedeemCodeErrors | null;
   faceStatus: 'happy' | 'sad' | 'cheering';
-  lastEditedInput?: 'code';
   message: string;
 }
 
@@ -31,7 +33,7 @@ interface StateSchema {
   };
 }
 
-type Event = { type: 'input'; key: 'code'; value: string } | { type: 'submit' };
+type Event = { type: 'input'; key: keyof Context['form']; value: string } | { type: 'submit' };
 
 const generalEncouragements = ['Look at you typing!', "You're doing great!", "Don't give up!"];
 const specificEncouragements = {
@@ -43,7 +45,7 @@ const getRandomEncouragement = (inputKey?: 'code') =>
     generalEncouragements.concat(inputKey ? specificEncouragements[inputKey] : []),
   );
 
-const mapErrorTypeToMessage = (errorType: Context['error']) => {
+const mapErrorTypeToMessage = (errorType: RedeemCodeErrors) => {
   switch (errorType) {
     case 'CodeNotFoundError':
       return 'Code not recognized... Typo?';
@@ -59,8 +61,11 @@ const mapErrorTypeToMessage = (errorType: Context['error']) => {
 const codeFormMachine = Machine<Context, StateSchema, Event>({
   id: 'codeForm',
   context: {
-    code: '',
-    error: null,
+    form: {
+      code: '',
+      email: '',
+    },
+    formType: 'email',
     faceStatus: 'happy',
     message: getRandomEncouragement(),
     downloadLink: null,
@@ -72,14 +77,15 @@ const codeFormMachine = Machine<Context, StateSchema, Event>({
       on: {
         input: {
           target: '.initial',
-          actions: assign(({ code, message }, { key, value }) => ({
-            message: code.length % 5 === 0 ? getRandomEncouragement(key) : message,
-            [key]: value,
-          })),
+          actions: assign({
+            form: ({ form }, { key, value }) => ({ ...form, [key]: value }),
+            message: ({ form, message }, { key }) =>
+              form.code.length % 5 === 0 ? getRandomEncouragement(key) : message,
+          }),
         },
         submit: {
           target: 'submitting',
-          cond: ({ code }) => !!code,
+          cond: ({ form, formType }) => !!form.code && (formType === 'email' ? !!form.email : true),
         },
       },
       states: {
@@ -115,7 +121,7 @@ const codeFormMachine = Machine<Context, StateSchema, Event>({
 const useCodeForm = () => {
   const [state, send] = useMachine(codeFormMachine, {
     services: {
-      redeemCode: (ctx) => redeemCode(ctx.code),
+      redeemCode: (ctx) => redeemCode(ctx.form.code),
     },
     devTools: process.env.NODE_ENV === 'development',
   });
@@ -125,10 +131,11 @@ const useCodeForm = () => {
       downloadLink: state.context.downloadLink,
       faceStatus: state.context.faceStatus,
       form: {
-        code: state.context.code,
-        inputLength: state.context.code.length,
-        lastEditedInput: state.context.lastEditedInput,
+        code: state.context.form.code,
+        email: state.context.form.email,
+        inputLength: state.context.form.code.length,
       },
+      formType: state.context.formType,
       message: state.context.message,
       status: state.value,
     },
@@ -136,6 +143,9 @@ const useCodeForm = () => {
     operations: {
       handleCodeInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         send({ type: 'input', key: 'code', value: e.target.value });
+      },
+      handleEmailInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        send({ type: 'input', key: 'email', value: e.target.value });
       },
       handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -148,22 +158,24 @@ const useCodeForm = () => {
 const INPUT_LENGTH_ESTIMATE = 25;
 
 // TODO inject redeemCode function somewhere else
-// TODO rename this to form and rename form component to something like formbody?
-export const FormPage = () => {
+export const Form = () => {
   const { models, operations } = useCodeForm();
-  const { handleCodeInputChange, handleSubmit } = operations;
+  const { handleCodeInputChange, handleEmailInputChange, handleSubmit } = operations;
 
   const smileIntensity =
     models.form.inputLength === 0
       ? 0
       : Math.min(models.form.inputLength / INPUT_LENGTH_ESTIMATE, 1);
 
-  // TODO instead of loading boolean, use state name
   return (
     <div className={s.container}>
-      <div className={s.header}>
+      <div className={s.top}>
         <div className={classNames(s.titleWrapper, !models.form.inputLength && s.visible)}>
           <h1 className={s.title}>Get your Klangstof</h1>
+          <div className={s.mobileDisclaimer}>
+            It seems like you’re on a mobile device. Most mobile devices won’t let you download
+            files, so we’ll email you a link instead that you can open on a computer.
+          </div>
         </div>
         <div className={classNames(s.faceWrapper, !!models.form.inputLength && s.visible)}>
           <Face status={models.faceStatus} intensity={smileIntensity} />
@@ -171,48 +183,67 @@ export const FormPage = () => {
         </div>
       </div>
 
-      <div className={s.box}>
-        <form
-          className={classNames(
-            s.form,
-            models.status === 'submitting' && s.loading,
-            models.status === 'success' && s.hidden,
+      <div className={s.bottom}>
+        <div className={s.box}>
+          <form
+            className={classNames(
+              s.form,
+              models.status === 'submitting' && s.loading,
+              models.status === 'success' && s.hidden,
+            )}
+            onSubmit={handleSubmit}
+          >
+            <div className={s.text}>Fill in your download-code and press enter</div>
+            <div>
+              <input
+                disabled={models.status === 'submitting'}
+                onChange={handleCodeInputChange}
+                placeholder="Download code"
+                value={models.form.code}
+                type="text"
+              />
+              {models.formType === 'email' && (
+                <>
+                  <input
+                    disabled={models.status === 'submitting'}
+                    onChange={handleEmailInputChange}
+                    placeholder="Email"
+                    value={models.form.email}
+                    type="email"
+                  />
+                  <button disabled type="submit">
+                    REDEEM
+                  </button>
+                </>
+              )}
+            </div>
+          </form>
+
+          {models.status === 'success' && (
+            <div className={s.success}>
+              <span>
+                <span role="img" aria-label="party popper">
+                  🎉
+                </span>
+                <a download href={models.downloadLink!}>
+                  Click here
+                </a>{' '}
+                to start your download...
+                <span role="img" aria-label="party popper">
+                  🎉
+                </span>
+              </span>
+            </div>
           )}
-          onSubmit={handleSubmit}
-        >
-          <div className={s.text}>Fill in your download-code and press enter</div>
-          <input
-            autoFocus
-            className={s.input}
-            disabled={models.status === 'submitting'}
-            onChange={handleCodeInputChange}
-            value={models.form.code}
-            type="text"
-          />
-        </form>
+        </div>
 
-        {models.status === 'success' && (
-          <div className={s.success}>
-            <span>
-              <span role="img" aria-label="party popper">
-                🎉
-              </span>
-              <a download href={models.downloadLink!}>
-                Click here
-              </a>{' '}
-              to start your download...
-              <span role="img" aria-label="party popper">
-                🎉
-              </span>
-            </span>
-          </div>
-        )}
+        <Confetti active={models.status === 'success'} />
       </div>
-
-      <Confetti active={models.status === 'success'} />
     </div>
   );
 };
+
+// TODO move this to seperate file?
 
 /**
  * FACE
