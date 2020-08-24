@@ -1,5 +1,6 @@
 import type { Server as HttpServer } from 'http';
 import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
 import mount from 'koa-mount';
 import type { Logger } from '../../lib/logger';
 import type { Server } from '../types/server';
@@ -30,6 +31,7 @@ export class KoaServer implements Server {
     // TODO add body?
     // TODO make sure to return JSON on error
 
+    app.use(bodyParser());
     app.use(async (ctx, next) => {
       try {
         await next();

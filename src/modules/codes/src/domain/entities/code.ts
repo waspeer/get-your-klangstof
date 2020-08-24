@@ -1,7 +1,10 @@
 import assert from 'assert';
 import Sentencer from 'sentencer';
+import { CodeRedeemedEvent } from '../events/code-redeemed-event';
 import { DownloadToken } from '../value-objects/download-token';
-import { Entity } from '~root/lib/domain/entity';
+import { Redeemer } from './redeemer';
+import { EventTypes } from '~root/events/event-types';
+import { AggregateRoot } from '~root/lib/domain/aggregate-root';
 import { UUID } from '~root/lib/domain/uuid';
 
 interface Props {
@@ -14,8 +17,8 @@ type ConstructorProps = Pick<Props, 'assetName'> & Partial<Omit<Props, 'assetNam
 
 const generateCode = () => Sentencer.make('{{ adjective }}-{{ adjective }}-{{ noun }}');
 
-export class Code extends Entity<Props> {
-  public constructor({ assetName, used = 0, useLimit = 1 }: ConstructorProps, id?: UUID) {
+export class Code extends AggregateRoot<Props, EventTypes.CodeRedeemed> {
+  public constructor({ assetName, used = 0, useLimit = 5 }: ConstructorProps, id?: UUID) {
     super({ assetName, used, useLimit }, id ?? new UUID(generateCode()));
   }
 
@@ -35,13 +38,17 @@ export class Code extends Entity<Props> {
     return this.props.useLimit;
   }
 
-  public redeemForDownloadToken() {
+  public redeemForDownloadToken(redeemer?: Redeemer) {
     assert(this.canBeRedeemed, `Code cannot be used more than ${this.useLimit} time(s)`);
 
     this.props.used += 1;
 
-    return new DownloadToken({
+    const token = new DownloadToken({
       assetName: this.assetName,
     });
+
+    this.events.add(new CodeRedeemedEvent({ code: this, redeemedFor: token, redeemer }));
+
+    return token;
   }
 }

@@ -5,6 +5,10 @@ type ControllerWithErrorHandler = KoaController & { handleError(error: Error, ct
 export abstract class KoaController {
   public abstract async execute(ctx: Context): Promise<void>;
 
+  static badRequest(ctx: Context, error: Error) {
+    ctx.throw(400, error);
+  }
+
   static created(ctx: Context) {
     ctx.status = 201;
   }

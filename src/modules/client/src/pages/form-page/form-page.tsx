@@ -38,9 +38,10 @@ type Event = { type: 'input'; key: keyof Context['form']; value: string } | { ty
 const generalEncouragements = ['Look at you typing!', "You're doing great!", "Don't give up!"];
 const specificEncouragements = {
   code: ["You've got my favorite code!", 'This code was made for you!'],
+  email: ['You have the best email address!', 'That email address rocks!'],
 };
 
-const getRandomEncouragement = (inputKey?: 'code') =>
+const getRandomEncouragement = (inputKey?: keyof typeof specificEncouragements) =>
   getRandomArrayItem(
     generalEncouragements.concat(inputKey ? specificEncouragements[inputKey] : []),
   );
@@ -57,6 +58,9 @@ const mapErrorTypeToMessage = (errorType: RedeemCodeErrors) => {
       return 'An unexpected error occurred...';
   }
 };
+
+const formIsValid = ({ form, formType }: Context) =>
+  !!form.code && (formType === 'email' ? !!form.email : true);
 
 const codeFormMachine = Machine<Context, StateSchema, Event>({
   id: 'codeForm',
@@ -80,12 +84,14 @@ const codeFormMachine = Machine<Context, StateSchema, Event>({
           actions: assign({
             form: ({ form }, { key, value }) => ({ ...form, [key]: value }),
             message: ({ form, message }, { key }) =>
-              form.code.length % 5 === 0 ? getRandomEncouragement(key) : message,
+              (form.code.length + form.email.length) % 5 === 0
+                ? getRandomEncouragement(key)
+                : message,
           }),
         },
         submit: {
           target: 'submitting',
-          cond: ({ form, formType }) => !!form.code && (formType === 'email' ? !!form.email : true),
+          cond: formIsValid,
         },
       },
       states: {
@@ -133,8 +139,9 @@ const useCodeForm = () => {
       form: {
         code: state.context.form.code,
         email: state.context.form.email,
-        inputLength: state.context.form.code.length,
+        inputLength: state.context.form.code.length + state.context.form.email.length,
       },
+      formIsValid: formIsValid(state.context),
       formType: state.context.formType,
       message: state.context.message,
       status: state.value,
@@ -162,10 +169,9 @@ export const Form = () => {
   const { models, operations } = useCodeForm();
   const { handleCodeInputChange, handleEmailInputChange, handleSubmit } = operations;
 
+  const inputLengthEstimate = INPUT_LENGTH_ESTIMATE * (models.formType === 'email' ? 2 : 1);
   const smileIntensity =
-    models.form.inputLength === 0
-      ? 0
-      : Math.min(models.form.inputLength / INPUT_LENGTH_ESTIMATE, 1);
+    models.form.inputLength === 0 ? 0 : Math.min(models.form.inputLength / inputLengthEstimate, 1);
 
   return (
     <div className={s.container}>
@@ -211,7 +217,7 @@ export const Form = () => {
                     value={models.form.email}
                     type="email"
                   />
-                  <button disabled type="submit">
+                  <button disabled={!models.formIsValid} type="submit">
                     REDEEM
                   </button>
                 </>

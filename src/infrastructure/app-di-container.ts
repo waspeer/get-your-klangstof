@@ -8,6 +8,7 @@ import { KoaMiddleware } from './koa/types/koa-middleware';
 import type { AwilixDIContainer } from './types/awilix-di-container';
 import type { Server } from './types/server';
 import { WinstonLogger } from './winston-logger';
+import { DomainEventEmitter } from '~root/lib/events/domain-event-emitter';
 
 interface ModuleOptions {
   urlNamespace?: string;
@@ -41,6 +42,7 @@ export class AppDiContainer implements DIContainer {
        * GENERAL
        */
 
+      domainEventEmitter: asClass(DomainEventEmitter).singleton(),
       logger: asClass<Logger>(WinstonLogger),
 
       /**
@@ -65,6 +67,7 @@ export class AppDiContainer implements DIContainer {
     // REGISTER COMMON DEPENDENCIES
     modules.forEach(([{ container }]) => {
       container.register({
+        domainEventEmitter: asValue(this.get('domainEventEmitter')),
         logger: asValue(this.get('logger')),
       });
     });

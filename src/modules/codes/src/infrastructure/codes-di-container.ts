@@ -53,6 +53,7 @@ export class CodesDIContainer implements AwilixDIContainer {
        * GENERAL
        */
 
+      domainEventEmitter: asFunction(notImplemented('logger')),
       logger: asFunction(notImplemented('logger')),
 
       /**
