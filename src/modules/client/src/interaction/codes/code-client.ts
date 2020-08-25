@@ -5,20 +5,14 @@ if (!API_URL) {
 }
 
 /**
- * REQUEST
+ * CLIENT
  */
 
-type RequestConfig = Omit<RequestInit, 'body'> & { body?: any };
+type ClientConfig = Omit<RequestInit, 'body'> & { body?: any };
 
-// interface ErrorResponse<T extends string = string> {
-//   statusCode: number;
-//   error: T;
-//   message: string;
-// }
-
-async function request<T extends Record<string, any> = Record<string, any>>(
+export async function codeClient<T extends Record<string, any> = Record<string, any>>(
   endpoint: string,
-  { body, ...customConfig }: RequestConfig = {},
+  { body, ...customConfig }: ClientConfig = {},
 ): Promise<T> {
   const url = new URL(endpoint, API_URL);
   const headers: HeadersInit = { 'content-type': 'application/json' };
@@ -47,10 +41,10 @@ async function request<T extends Record<string, any> = Record<string, any>>(
 }
 
 /**
- * REDEEM CODE
+ * HOOK
  */
 
-interface RedeemCodePayload {
+export interface RedeemCodePayload {
   downloadLink: string;
 }
 
@@ -60,17 +54,24 @@ export type RedeemCodeErrors =
   | 'CodeAlreadyRedeemedError'
   | 'UnexpectedError';
 
-export async function redeemCode(code: string) {
-  return request<RedeemCodePayload>(`codes/${code}/redeem`, {
-    method: 'POST',
-  });
+interface Props {
+  client<T extends Record<string, any>>(endpoint: string, config?: ClientConfig): Promise<T>;
 }
 
-export async function redeemCodeWithEmail(code: string, email: string) {
-  return request<RedeemCodePayload>(`codes/${code}/redeem`, {
-    method: 'POST',
-    body: {
-      redeemer: { email },
+export function useCode({ client }: Props = { client: codeClient }) {
+  return {
+    // REDEEM CODE
+    redeemCode(code: string) {
+      return client<RedeemCodePayload>(`codes/${code}/redeem`, {
+        method: 'POST',
+      });
     },
-  });
+
+    redeemCodeWithEmail(code: string, email: string) {
+      return client<RedeemCodePayload>(`codes/${code}/redeem`, {
+        method: 'POST',
+        body: { redeemer: { email } },
+      });
+    },
+  };
 }
