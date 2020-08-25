@@ -8,6 +8,7 @@
 .bottom {
   width: 100%;
   height: 50vh;
+  min-height: 300px;
 }
 
 /* HEADER */
@@ -100,6 +101,10 @@
 
     &:focus {
       @apply z-20;
+    }
+
+    &:disabled {
+      @apply cursor-not-allowed;
     }
   }
 
@@ -280,4 +285,9 @@
   & a {
     @apply font-bold underline;
   }
+}
+
+.confettiWrapper {
+  width: 10px;
+  margin: 0 auto;
 }

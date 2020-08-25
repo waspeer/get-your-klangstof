@@ -65,3 +65,12 @@ export async function redeemCode(code: string) {
     method: 'POST',
   });
 }
+
+export async function redeemCodeWithEmail(code: string, email: string) {
+  return request<RedeemCodePayload>(`codes/${code}/redeem`, {
+    method: 'POST',
+    body: {
+      redeemer: { email },
+    },
+  });
+}

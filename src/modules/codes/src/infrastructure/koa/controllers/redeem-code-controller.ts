@@ -59,6 +59,8 @@ export class RedeemCodeController extends KoaController {
     switch (error.constructor) {
       case yup.ValidationError:
       case ValidationError:
+        this.logger.debug('RedeemCodeController: validation error, %s', error.message);
+
         return KoaController.badRequest(ctx, error);
       case CodeNotFoundError:
       case AssociatedAssetNotFoundError:

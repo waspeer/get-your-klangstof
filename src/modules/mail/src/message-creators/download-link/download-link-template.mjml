@@ -1,0 +1,10 @@
+<mj-section>
+  <mj-column>
+    <mj-text align="center">
+      You have successfully redeemed your code! 🎉 Click the button below to start downloading.
+    </mj-text>
+    <mj-button href="{{baseUrl}}{{token}}">
+      Download!
+    </mj-button>
+  </mj-column>
+</mj-section>

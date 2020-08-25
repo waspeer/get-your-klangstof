@@ -1,9 +1,14 @@
 import classNames from '@sindresorhus/class-names';
 import { useMachine } from '@xstate/react';
 import React from 'react';
+import { isMobile } from 'react-device-detect';
 import Confetti from 'react-dom-confetti';
 import { assign, Machine } from 'xstate';
-import { redeemCode, RedeemCodeErrors } from '../../interaction/codes/code-client';
+import {
+  redeemCode,
+  RedeemCodeErrors,
+  redeemCodeWithEmail,
+} from '../../interaction/codes/code-client';
 import { getRandomArrayItem } from '../../lib/util/get-random-array-item';
 import s from './form-page.css';
 
@@ -126,8 +131,14 @@ const codeFormMachine = Machine<Context, StateSchema, Event>({
 
 const useCodeForm = () => {
   const [state, send] = useMachine(codeFormMachine, {
+    context: {
+      formType: isMobile ? 'email' : 'direct',
+    },
     services: {
-      redeemCode: (ctx) => redeemCode(ctx.form.code),
+      redeemCode: (ctx) =>
+        ctx.formType === 'email'
+          ? redeemCodeWithEmail(ctx.form.code, ctx.form.email)
+          : redeemCode(ctx.form.code),
     },
     devTools: process.env.NODE_ENV === 'development',
   });
@@ -178,10 +189,13 @@ export const Form = () => {
       <div className={s.top}>
         <div className={classNames(s.titleWrapper, !models.form.inputLength && s.visible)}>
           <h1 className={s.title}>Get your Klangstof</h1>
-          <div className={s.mobileDisclaimer}>
-            It seems like you’re on a mobile device. Most mobile devices won’t let you download
-            files, so we’ll email you a link instead that you can open on a computer.
-          </div>
+
+          {models.formType === 'email' && (
+            <div className={s.mobileDisclaimer}>
+              It seems like you’re on a mobile device. Most mobile devices won’t let you download
+              files, so we’ll email you a link instead that you can open on a computer.
+            </div>
+          )}
         </div>
         <div className={classNames(s.faceWrapper, !!models.form.inputLength && s.visible)}>
           <Face status={models.faceStatus} intensity={smileIntensity} />
@@ -199,7 +213,11 @@ export const Form = () => {
             )}
             onSubmit={handleSubmit}
           >
-            <div className={s.text}>Fill in your download-code and press enter</div>
+            <div className={s.text}>
+              {models.status === 'direct'
+                ? 'Fill in your download-code and press enter'
+                : 'Fill in your download-code below'}
+            </div>
             <div>
               <input
                 disabled={models.status === 'submitting'}
@@ -217,7 +235,10 @@ export const Form = () => {
                     value={models.form.email}
                     type="email"
                   />
-                  <button disabled={!models.formIsValid} type="submit">
+                  <button
+                    disabled={!models.formIsValid || models.status === 'submitting'}
+                    type="submit"
+                  >
                     REDEEM
                   </button>
                 </>
@@ -231,10 +252,18 @@ export const Form = () => {
                 <span role="img" aria-label="party popper">
                   🎉
                 </span>
-                <a download href={models.downloadLink!}>
-                  Click here
-                </a>{' '}
-                to start your download...
+
+                {models.formType === 'direct' && (
+                  <span>
+                    <a download href={models.downloadLink!}>
+                      Click here
+                    </a>{' '}
+                    to start your download...
+                  </span>
+                )}
+
+                {models.formType === 'email' && <span>You&apos;ve got mail!</span>}
+
                 <span role="img" aria-label="party popper">
                   🎉
                 </span>
@@ -243,7 +272,9 @@ export const Form = () => {
           )}
         </div>
 
-        <Confetti active={models.status === 'success'} />
+        <div className={s.confettiWrapper}>
+          <Confetti active={models.status === 'success'} />
+        </div>
       </div>
     </div>
   );

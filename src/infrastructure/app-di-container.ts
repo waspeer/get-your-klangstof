@@ -9,6 +9,7 @@ import type { AwilixDIContainer } from './types/awilix-di-container';
 import type { Server } from './types/server';
 import { WinstonLogger } from './winston-logger';
 import { DomainEventEmitter } from '~root/lib/events/domain-event-emitter';
+import { Listener } from '~root/lib/events/listener';
 
 interface ModuleOptions {
   urlNamespace?: string;
@@ -51,7 +52,7 @@ export class AppDiContainer implements DIContainer {
 
       middleware: asFunction(() =>
         modules.flatMap(([module, { urlNamespace }]) => {
-          const middleware = module.get<KoaMiddleware[]>('middleware');
+          const middleware = module.get<KoaMiddleware[]>('middleware') ?? [];
 
           return middleware.map((mw) => {
             // eslint-disable-next-line no-param-reassign
@@ -64,12 +65,17 @@ export class AppDiContainer implements DIContainer {
       server: asClass<Server>(KoaServer),
     });
 
-    // REGISTER COMMON DEPENDENCIES
     modules.forEach(([{ container }]) => {
+      // REGISTER COMMON DEPENDENCIES
       container.register({
         domainEventEmitter: asValue(this.get('domainEventEmitter')),
         logger: asValue(this.get('logger')),
       });
+
+      // REGISTER EVENT HANDLERS
+      const eventHandlers =
+        container.resolve<Listener<any>[]>('eventHandlers', { allowUnregistered: true }) ?? [];
+      eventHandlers.forEach((eventHandler) => eventHandler.register());
     });
   }
 

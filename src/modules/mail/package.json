@@ -1,0 +1,17 @@
+{
+  "name": "mail",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Wannes Salomé",
+  "license": "MIT",
+  "dependencies": {
+    "awilix": "^4.2.6",
+    "handlebars": "^4.7.6",
+    "mjml": "^4.6.3",
+    "nodemailer": "^6.4.11"
+  },
+  "devDependencies": {
+    "@types/mjml": "^4.0.4",
+    "@types/nodemailer": "^6.4.0"
+  }
+}

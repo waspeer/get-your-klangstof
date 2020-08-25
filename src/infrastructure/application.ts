@@ -2,11 +2,13 @@ import { CodesDIContainer } from '../modules/codes/src/infrastructure/codes-di-c
 import { AppDiContainer, Modules } from './app-di-container';
 import type { Server } from './types/server';
 import { ClientDIContainer } from '~root/modules/client/src/adapter/client-di-container';
+import { MailDIContainer } from '~root/modules/mail/src/mail-di-container';
 
 export class Application {
   public static modules: Modules = [
     [new CodesDIContainer(), { urlNamespace: '/api/v1' }],
     new ClientDIContainer(),
+    new MailDIContainer(),
   ];
 
   public static container = new AppDiContainer(Application.modules);
