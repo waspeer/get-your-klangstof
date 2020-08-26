@@ -12,11 +12,12 @@ interface Props {
     redeemCode: (code: string) => Promise<RedeemCodePayload>;
     redeemCodeWithEmail: (code: string, email: string) => Promise<RedeemCodePayload>;
   };
+  initialCode?: string;
   inputLengthEstimate?: number;
 }
 
-export const Form = ({ inputLengthEstimate = 25, actions }: Props) => {
-  const { models, operations } = useCodeForm(actions);
+export const Form = ({ inputLengthEstimate = 25, initialCode = '', actions }: Props) => {
+  const { models, operations } = useCodeForm({ actions, initialCode });
   const { handleCodeInputChange, handleEmailInputChange, handleSubmit } = operations;
 
   const formLengthEstimate = inputLengthEstimate * (models.formType === 'email' ? 2 : 1);

@@ -1,3 +1,6 @@
+import type { Context } from 'koa';
+import compose from 'koa-compose';
+import send from 'koa-send';
 import serve from 'koa-static';
 import Bundler from 'parcel-bundler';
 import { KoaMiddleware } from '~root/infrastructure/koa/types/koa-middleware';
@@ -25,6 +28,11 @@ export class BundlerMiddleware implements KoaMiddleware {
   public get() {
     this.bundler.bundle();
 
-    return serve(this.config.outDir);
+    return compose([
+      serve(this.config.outDir),
+      async (ctx: Context) => {
+        await send(ctx, '/index.html', { root: this.config.outDir });
+      },
+    ]);
   }
 }

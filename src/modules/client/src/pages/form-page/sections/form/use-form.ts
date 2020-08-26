@@ -139,13 +139,21 @@ const codeFormMachine = Machine<Context, StateSchema, Event>({
  */
 
 interface Props {
-  redeemCode: (code: string) => Promise<RedeemCodePayload>;
-  redeemCodeWithEmail: (code: string, email: string) => Promise<RedeemCodePayload>;
+  actions: {
+    redeemCode: (code: string) => Promise<RedeemCodePayload>;
+    redeemCodeWithEmail: (code: string, email: string) => Promise<RedeemCodePayload>;
+  };
+  initialCode: string;
 }
 
-export const useCodeForm = ({ redeemCode, redeemCodeWithEmail }: Props) => {
+export const useCodeForm = ({ actions, initialCode }: Props) => {
+  const { redeemCode, redeemCodeWithEmail } = actions;
   const [state, send] = useMachine(codeFormMachine, {
     context: {
+      form: {
+        code: initialCode,
+        email: '',
+      },
       formType: isMobile ? 'email' : 'direct',
     },
     services: {

@@ -1,0 +1,12 @@
+.wrapper {
+  @apply flex flex-col justify-center items-center;
+  min-height: 100vh;
+}
+
+.message {
+  @apply mt-8 text-xl text-primary;
+
+  & a {
+    @apply underline;
+  }
+}
