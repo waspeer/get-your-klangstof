@@ -14,8 +14,8 @@
     "src/modules/*"
   ],
   "scripts": {
-    "build": "ttsc",
-    "postbuild": "copyfiles ./src/**/*.{css,mjml} dist",
+    "build": "ttsc && yarn workspace client build",
+    "postbuild": "copyfiles ./src/**/*.{css,mjml} ./src/modules/client/dist/**/* dist",
     "code:check:rules": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "code:check": "yarn code:lint; yarn code:format --check",
     "code:clean": "yarn code:lint --fix; yarn code:format --write",

@@ -4,6 +4,9 @@ import send from 'koa-send';
 import serve from 'koa-static';
 import Bundler from 'parcel-bundler';
 import { KoaMiddleware } from '~root/infrastructure/koa/types/koa-middleware';
+import { getEnvironmentVariable } from '~root/lib/helpers/get-environment-variable';
+
+const NODE_ENV = getEnvironmentVariable('NODE_ENV');
 
 export interface BundlerMiddlewareConfig {
   entryFilePath: string;
@@ -26,7 +29,9 @@ export class BundlerMiddleware implements KoaMiddleware {
   }
 
   public get() {
-    this.bundler.bundle();
+    if (NODE_ENV === 'development') {
+      this.bundler.bundle();
+    }
 
     return compose([
       serve(this.config.outDir),
