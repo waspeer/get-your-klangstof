@@ -22,7 +22,7 @@
     "code:format": "prettier './src/**/**.{js,jsx,ts,tsx}'",
     "code:lint": "eslint --ext .js,.jsx,.ts,.tsx \"src/\"",
     "dev": "nodemon",
-    "start": "NODE_ENV=production yarn build && node dist/src/app",
+    "start": "NODE_ENV=production node dist/src/app",
     "test": "jest"
   },
   "devDependencies": {
