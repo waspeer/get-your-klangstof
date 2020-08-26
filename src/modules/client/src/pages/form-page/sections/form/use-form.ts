@@ -27,15 +27,17 @@ const getRandomEncouragement = (inputKey?: keyof typeof specificEncouragements) 
   );
 
 const mapErrorTypeToMessage = (errorType: RedeemCodeErrors) => {
+  // eslint-disable-next-line default-case
   switch (errorType) {
     case 'CodeNotFoundError':
       return 'Code not recognized... Typo?';
-    case 'AssociatedAssetNotFoundError':
-      return 'Something went wrong internally. Email us at klangstof@gmail.com.';
     case 'CodeAlreadyRedeemedError':
       return 'This code has already been used...';
-    default:
-      return 'An unexpected error occurred...';
+    case 'ValidationError':
+      return 'This email address is invalid!';
+    case 'AssociatedAssetNotFoundError':
+    case 'UnexpectedError':
+      return 'Something went wrong internally. Email us at klangstof@gmail.com.';
   }
 };
 

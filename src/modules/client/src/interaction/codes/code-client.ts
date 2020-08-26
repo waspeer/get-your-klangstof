@@ -7,7 +7,8 @@ export type RedeemCodeErrors =
   | 'CodeNotFoundError'
   | 'AssociatedAssetNotFoundError'
   | 'CodeAlreadyRedeemedError'
-  | 'UnexpectedError';
+  | 'UnexpectedError'
+  | 'ValidationError';
 
 export interface RedeemCodePayload {
   downloadLink: string;
