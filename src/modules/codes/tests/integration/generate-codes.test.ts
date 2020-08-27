@@ -1,8 +1,5 @@
-import { asValue } from 'awilix';
-import { CodesDIContainer } from '../../src/infrastructure/codes-di-container';
-import { createMockAssetRepository } from '../mocks/mock-asset-repository';
 import { createFakeAsset } from '../util/create-fake-asset';
-import { createMockLogger } from '~root/../tests/mocks/mock-logger';
+import { createTestContainer } from '../util/create-test-container';
 import { createApiUrl } from '~root/../tests/util/create-api-url';
 import { createKoaSupertestAgentFromRouter } from '~root/../tests/util/create-koa-supertest-agent';
 import type { KoaMiddleware } from '~root/infrastructure/koa/types/koa-middleware';
@@ -11,13 +8,7 @@ import { getEnvironmentVariable } from '~root/lib/helpers/get-environment-variab
 const ADMIN_USERNAME = getEnvironmentVariable('ADMIN_USERNAME');
 const ADMIN_PASSWORD = getEnvironmentVariable('ADMIN_PASSWORD');
 
-const container = new CodesDIContainer();
-const mockAssetRepository = createMockAssetRepository();
-const mockLogger = createMockLogger();
-container.container.register({
-  assetRepository: asValue(mockAssetRepository),
-  logger: asValue(mockLogger),
-});
+const { container, mockAssetRepository } = createTestContainer();
 
 const router = container.get<KoaMiddleware>('router');
 const request = createKoaSupertestAgentFromRouter(router);
