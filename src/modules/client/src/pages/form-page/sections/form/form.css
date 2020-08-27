@@ -27,7 +27,7 @@
   }
 
   & .title {
-    @apply font-heading text-primary uppercase text-4xl;
+    @apply font-heading text-primary uppercase text-4xl font-black;
     @apply max-w-xs text-center pb-5;
     text-shadow: theme('boxShadow.funky');
   }

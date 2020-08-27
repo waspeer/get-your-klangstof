@@ -5,7 +5,6 @@ import mount from 'koa-mount';
 import type { Logger } from '../../lib/logger';
 import type { Server } from '../types/server';
 import type { KoaMiddleware } from './types/koa-middleware';
-import { getEnvironmentVariable } from '~root/lib/helpers/get-environment-variable';
 
 export interface ServerConfig {
   host?: string;
@@ -17,8 +16,6 @@ interface Dependencies {
   middleware: KoaMiddleware[];
   serverConfig: ServerConfig;
 }
-
-const ACME_THUMBPRINT = getEnvironmentVariable('ACME_THUMBPRINT');
 
 export class KoaServer implements Server {
   private readonly config: ServerConfig;
@@ -46,17 +43,6 @@ export class KoaServer implements Server {
           error: error.constructor.name,
           message: error.message,
         };
-      }
-    });
-
-    // SSL middleware
-    app.use(async (ctx, next) => {
-      const [, token] = ctx.path.match(/^\/\.well-known\/acme-challenge\/([^/]+)$/) ?? [];
-
-      if (token) {
-        ctx.body = `${token}.${ACME_THUMBPRINT}`;
-      } else {
-        await next();
       }
     });
 
