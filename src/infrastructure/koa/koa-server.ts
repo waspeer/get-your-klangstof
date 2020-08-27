@@ -27,7 +27,7 @@ export class KoaServer implements Server {
   public constructor({ logger, middleware, serverConfig }: Dependencies) {
     const app = new Koa();
 
-    app.use(cors({ origin: 'https://getyour.klangstof.com' }));
+    app.use(cors());
     app.use(bodyParser());
 
     // Error middleware
