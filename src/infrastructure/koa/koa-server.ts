@@ -1,4 +1,5 @@
 import type { Server as HttpServer } from 'http';
+import cors from '@koa/cors';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import mount from 'koa-mount';
@@ -26,6 +27,7 @@ export class KoaServer implements Server {
   public constructor({ logger, middleware, serverConfig }: Dependencies) {
     const app = new Koa();
 
+    app.use(cors({ origin: 'https://getyour.klangstof.com' }));
     app.use(bodyParser());
 
     // Error middleware
