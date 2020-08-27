@@ -54,9 +54,9 @@ export class KoaServer implements Server {
       const [, token] = ctx.path.match(/^\/\.well-known\/acme-challenge\/([^/]+)$/) ?? [];
 
       if (token) {
-        next();
-      } else {
         ctx.body = `${token}.${ACME_THUMBPRINT}`;
+      } else {
+        await next();
       }
     });
 
