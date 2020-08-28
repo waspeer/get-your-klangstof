@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Wannes Salomé",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "dependencies": {
     "awilix": "^4.2.6",
     "handlebars": "^4.7.6",

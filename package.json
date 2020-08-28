@@ -4,7 +4,7 @@
   "main": "index.js",
   "repository": "git@github.com:waspeer/get-your-klangstof.git",
   "author": "Wannes Salomé <mail@wannessalome.nl>",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "engines": {
     "node": "12.18.x",
     "yarn": "1.22.x"

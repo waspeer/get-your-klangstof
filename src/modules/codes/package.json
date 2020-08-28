@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Wannes Salomé",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "scripts": {},
   "dependencies": {
     "@koa/router": "^9.3.1",
