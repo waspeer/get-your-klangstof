@@ -14,7 +14,7 @@
     <!-- HEADER -->
     <mj-section>
       <mj-column background-color="transparent">
-        <mj-text font-family="'Arial Black'" font-size="40px" line-height="100%" align="center" font-weight="600" color="#FF88D9">
+        <mj-text font-family="'Arial Black', Arial" font-size="40px" line-height="100%" align="center" font-weight="900" color="#FF88D9">
           GET YOUR KLANGSTOF
         </mj-text>
       </mj-column>

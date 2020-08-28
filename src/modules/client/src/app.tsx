@@ -1,7 +1,7 @@
 import { Router } from '@reach/router';
 import type { RouteComponentProps } from '@reach/router';
 import React from 'react';
-import { FormPage, DownloadPage } from './pages';
+import { DownloadPage, FormPage, NotFoundPage } from './pages';
 import './styles/global.css';
 
 const Route = ({
@@ -15,6 +15,8 @@ export const App = () => {
       <Route component={FormPage} path="/:code" />
 
       <Route component={DownloadPage} path="/download/:token" />
+
+      <Route component={NotFoundPage} default />
     </Router>
   );
 };

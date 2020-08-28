@@ -1,0 +1,8 @@
+.wrapper {
+  @apply flex flex-col justify-center items-center;
+  min-height: 100vh;
+
+  & p {
+    @apply text-primary text-2xl pt-8;
+  }
+}
