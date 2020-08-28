@@ -28,7 +28,7 @@ export class MailDIContainer implements AwilixDIContainer {
        * CONFIG
        */
       mailServiceConfig: asValue<NodemailerMailServiceConfig>({
-        fromAddress: 'mail@klangstof.com',
+        fromAddress: getEnvironmentVariable('MAIL_RECIPIENT'),
       }),
       transportOptions: asValue<TransportOptions>({
         host: getEnvironmentVariable('SMTP_HOST'),
