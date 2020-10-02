@@ -1,7 +1,7 @@
 import type { Server as HttpServer } from 'http';
 import cors from '@koa/cors';
 import Koa from 'koa';
-import bodyParser from 'koa-bodyparser';
+import bodyParser from 'koa-body';
 import mount from 'koa-mount';
 import type { Logger } from '../../lib/logger';
 import type { Server } from '../types/server';

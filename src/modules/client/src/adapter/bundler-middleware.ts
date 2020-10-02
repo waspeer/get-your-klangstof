@@ -36,7 +36,7 @@ export class BundlerMiddleware implements KoaMiddleware {
     return compose([
       serve(this.config.outDir),
       async (ctx: Context) => {
-        await send(ctx, '/index.html', { root: this.config.outDir });
+        await send(ctx as any, '/index.html', { root: this.config.outDir });
       },
     ]);
   }

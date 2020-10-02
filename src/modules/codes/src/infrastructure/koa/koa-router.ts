@@ -31,20 +31,20 @@ export class KoaRouter implements KoaMiddleware {
           pass: ADMIN_PASSWORD,
         }),
 
-        (ctx) => generateCodesController.execute(ctx),
+        (ctx) => generateCodesController.execute(ctx as any),
       )
 
       .get(
         '/download/:downloadToken',
 
-        (ctx) => downloadAssetController.execute(ctx),
+        (ctx) => downloadAssetController.execute(ctx as any),
       )
 
       // CODE ROUTES
       .post(
         '/codes/:codeId/redeem',
 
-        (ctx) => redeemCodeController.execute(ctx),
+        (ctx) => redeemCodeController.execute(ctx as any),
       );
   }
 
