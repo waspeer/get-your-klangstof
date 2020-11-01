@@ -7,9 +7,9 @@
   "scripts": {},
   "dependencies": {
     "@koa/router": "^9.4.0",
-    "awilix": "^4.2.6",
+    "awilix": "^4.2.7",
     "google-spreadsheet": "^3.0.13",
-    "got": "^11.7.0",
+    "got": "^11.8.0",
     "jsonwebtoken": "^8.5.1",
     "koa-basic-auth": "^4.0.0",
     "sentencer": "^0.2.1",
@@ -17,11 +17,11 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.0",
-    "@types/koa": "^2.11.4",
+    "@types/koa": "^2.11.6",
     "@types/koa-basic-auth": "^2.0.3",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa__router": "^8.0.3",
-    "@types/yup": "^0.29.7",
+    "@types/yup": "^0.29.9",
     "portfinder": "^1.0.28"
   }
 }
