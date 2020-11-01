@@ -9,7 +9,7 @@
     "@koa/router": "^9.4.0",
     "awilix": "^4.2.6",
     "google-spreadsheet": "^3.0.13",
-    "got": "^11.7.0",
+    "got": "^11.8.0",
     "jsonwebtoken": "^8.5.1",
     "koa-basic-auth": "^4.0.0",
     "sentencer": "^0.2.1",
