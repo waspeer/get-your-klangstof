@@ -2248,10 +2248,10 @@ autoprefixer@^9.4.5, autoprefixer@^9.6.1:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
-awilix@^4.2.6:
-  version "4.2.6"
-  resolved "https://registry.yarnpkg.com/awilix/-/awilix-4.2.6.tgz#8b4b0baf35491f5235ceebbae42823359087f382"
-  integrity sha512-28avOdjml+yvy4iDFhsC+r7Z5ImR0MM5NNjgVvNbr6bQXv6uwXGS9cMbvUn/pEWNPh+sv88/pyJSvWlBIXXpuw==
+awilix@^4.2.7:
+  version "4.2.7"
+  resolved "https://registry.yarnpkg.com/awilix/-/awilix-4.2.7.tgz#36d2dba1157fc9c733a27c067f013a9e522b20e7"
+  integrity sha512-yH3uT++C6QSQYWFa5gaqHTtlZg7XE07MufYKinFFLg51HuxMIKzw5q94tUFbGi6BuwMN708dANMGbpoM69+oSw==
   dependencies:
     camel-case "^4.1.1"
     glob "^7.1.6"
