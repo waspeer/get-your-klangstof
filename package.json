@@ -40,7 +40,7 @@
     "nodemon": "^2.0.6",
     "poetic": "^1.6.0",
     "supertest": "^6.0.0",
-    "ts-jest": "^26.4.3",
+    "ts-jest": "^26.4.4",
     "ts-node": "^9.0.0",
     "tsconfig-paths": "^3.9.0",
     "ttypescript": "^1.5.12",
