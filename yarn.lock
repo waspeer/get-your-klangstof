@@ -7850,12 +7850,7 @@ node-emoji@^1.8.1:
   dependencies:
     lodash.toarray "^4.4.0"
 
-node-fetch@^2.3.0:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
-  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
-
-node-fetch@^2.6.0:
+node-fetch@^2.3.0, node-fetch@^2.6.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
@@ -11241,10 +11236,12 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript-transform-paths@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/typescript-transform-paths/-/typescript-transform-paths-2.1.0.tgz#3d5c492910c59ce1a7bb762d3078185cbd11940d"
-  integrity sha512-xBzFzS5LTfTjyuT4fuqIk3MLDWsrJTNFs3y17CwVR54G6G/KtTZcVc9UjChgDTuoBffd+Q3oD99UtyDXRpuy/g==
+typescript-transform-paths@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/typescript-transform-paths/-/typescript-transform-paths-2.2.2.tgz#d5290cb30a532f187f5f3a8dcde3eef2358ed54b"
+  integrity sha512-775A+BHIJDf4VosEJ1gZKMptdyP/6yS3AO4gGxkk17AYPUbuoAubi0bcmgcga6vtfso6YRLWTTFjcyC0BBuIVA==
+  dependencies:
+    minimatch "^3.0.4"
 
 typescript@^4.0.2:
   version "4.0.3"
