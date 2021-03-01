@@ -32,7 +32,7 @@
     "react-dom-confetti": "^0.2.0",
     "regenerator-runtime": "^0.13.7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "xstate": "^4.16.0"
+    "xstate": "^4.16.2"
   },
   "devDependencies": {
     "@types/koa-static": "^4.0.1",
