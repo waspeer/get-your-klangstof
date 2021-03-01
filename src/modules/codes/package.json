@@ -13,7 +13,7 @@
     "jsonwebtoken": "^8.5.1",
     "koa-basic-auth": "^4.0.0",
     "sentencer": "^0.2.1",
-    "yup": "^0.32.8"
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.0",
