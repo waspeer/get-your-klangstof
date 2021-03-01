@@ -6,6 +6,7 @@ module.exports = {
       autoprefixer: true,
       features: {
         'color-mod-function': true,
+        'focus-within-pseudo-class': false,
         'nesting-rules': true,
       },
     }),

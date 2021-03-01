@@ -3,7 +3,7 @@ import type { Context } from 'koa';
 type ControllerWithErrorHandler = KoaController & { handleError(error: Error, ctx: Context): void };
 
 export abstract class KoaController {
-  public abstract async execute(ctx: Context): Promise<void>;
+  public abstract execute(ctx: Context): Promise<void>;
 
   static badRequest(ctx: Context, error: Error) {
     ctx.throw(400, error);
