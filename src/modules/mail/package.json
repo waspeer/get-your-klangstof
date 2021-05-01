@@ -12,6 +12,6 @@
   },
   "devDependencies": {
     "@types/mjml": "^4.7.0",
-    "@types/nodemailer": "^6.4.0"
+    "@types/nodemailer": "^6.4.1"
   }
 }
