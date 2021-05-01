@@ -7,7 +7,7 @@
   "dependencies": {
     "awilix": "^4.3.3",
     "handlebars": "^4.7.7",
-    "mjml": "^4.8.1",
+    "mjml": "^4.9.3",
     "nodemailer": "^6.5.0"
   },
   "devDependencies": {
