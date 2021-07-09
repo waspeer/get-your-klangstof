@@ -41,6 +41,6 @@
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
     "parcel-plugin-pwa-manifest": "^3.0.10",
-    "postcss-modules": "^3"
+    "postcss-modules": "^4"
   }
 }
